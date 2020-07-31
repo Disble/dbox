@@ -73,7 +73,13 @@ $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
-// Import Bulma and Buefy styles
+// Menu
+$menu-item-hover-background-color: transparent;
+$menu-item-hover-color: white;
+$menu-item-color: hsl(0, 0%, 69%);
+$menu-item-active-background-color: transparent;
+
+// Import Bulma and Buefy styles @import '~bulma';
 @import '~bulma';
 @import '~buefy/src/scss/buefy';
 

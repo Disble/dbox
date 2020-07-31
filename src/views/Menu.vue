@@ -1,48 +1,58 @@
 <template>
   <aside class="menu">
     <p class="menu-label">
-      General
+      Boxes
     </p>
     <ul class="menu-list">
-      <li>
-        <a>
-          <router-link to="/">
-            Home
-          </router-link>
-        </a>
+      <li
+        v-for="(item, index) in menu"
+        :key="index"
+        @click="toggleActive(item)"
+      >
+        <router-link
+          :class="{ 'is-active': item.isActive }"
+          :to="item.link"
+        >
+          {{ item.name }}
+        </router-link>
       </li>
-      <li>
-        <a>
-          <router-link to="/about">
-            About
-          </router-link>
-        </a>
-      </li>
-    </ul>
-    <p class="menu-label">
-      Administration
-    </p>
-    <ul class="menu-list">
-      <li><a>Team Settings</a></li>
-      <li>
-        <a class="is-active">Manage Your Team</a>
-        <ul>
-          <li><a>Members</a></li>
-          <li><a>Plugins</a></li>
-          <li><a>Add a member</a></li>
-        </ul>
-      </li>
-      <li><a>Invitations</a></li>
-      <li><a>Cloud Storage Environment Settings</a></li>
-      <li><a>Authentication</a></li>
-    </ul>
-    <p class="menu-label">
-      Transactions
-    </p>
-    <ul class="menu-list">
-      <li><a>Payments</a></li>
-      <li><a>Transfers</a></li>
-      <li><a>Balance</a></li>
     </ul>
   </aside>
 </template>
+
+<script>
+import bcrypt from 'bcryptjs';
+
+export default {
+    data() {
+        return {
+            menu: [
+                {
+                    id: bcrypt.hashSync('Home', 8),
+                    name: 'Home',
+                    link: '/',
+                    isActive: false
+                },
+                {
+                    id: bcrypt.hashSync('About', 8),
+                    name: 'About',
+                    link: '/about',
+                    isActive: true
+                }
+            ]
+        };
+    },
+
+    methods: {
+        toggleActive(itemActive) {
+            this.menu.forEach(item => {
+                if (item.id === itemActive.id) {
+                    item.isActive = true;
+                    return;
+                }
+                item.isActive = false;
+            });
+        }
+    }
+};
+</script>
