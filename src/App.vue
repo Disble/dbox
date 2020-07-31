@@ -1,32 +1,115 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <layout />
   </div>
 </template>
 
+<script>
+import Layout from '@/views/Layout';
+
+export default {
+    components: {
+        Layout
+    }
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+// Import Bulma's core
+@import '~bulma/sass/utilities/_all';
+
+// Set your colors
+$primary: #8c67ef;
+$primary-invert: findColorInvert($primary);
+$twitter: #4099ff;
+$twitter-invert: findColorInvert($twitter);
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+    'white': (
+        $white,
+        $black
+    ),
+    'black': (
+        $black,
+        $white
+    ),
+    'light': (
+        $light,
+        $light-invert
+    ),
+    'dark': (
+        $dark,
+        $dark-invert
+    ),
+    'primary': (
+        $primary,
+        $primary-invert
+    ),
+    'info': (
+        $info,
+        $info-invert
+    ),
+    'success': (
+        $success,
+        $success-invert
+    ),
+    'warning': (
+        $warning,
+        $warning-invert
+    ),
+    'danger': (
+        $danger,
+        $danger-invert
+    ),
+    'twitter': (
+        $twitter,
+        $twitter-invert
+    )
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+// Import Bulma and Buefy styles
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
+
+html {
+    overflow: auto;
 }
 
-#nav {
-  padding: 30px;
+/* Tamaño del scroll */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+/* Estilos barra (thumb) de scroll */
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
+::-webkit-scrollbar-thumb:active,
+::-webkit-scrollbar-thumb:hover {
+    background: #919193;
+}
+
+/* Dark scroll bar */
+@media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar {
+        background-color: hsl(0, 1%, 14%);
     }
-  }
+    ::-webkit-scrollbar-thumb {
+        background: hsl(0, 0%, 20%);
+    }
+
+    ::-webkit-scrollbar-thumb:active,
+    ::-webkit-scrollbar-thumb:hover {
+        background: hsl(240, 1%, 30%);
+    }
 }
 </style>
