@@ -13,6 +13,12 @@
           :class="{ 'is-active': item.isActive }"
           :to="item.link"
         >
+          <b-icon
+            pack="fas"
+            :icon="item.icon"
+            size="is-small"
+            custom-class="dbox-icon-menu"
+          />
           {{ item.name }}
         </router-link>
       </li>
@@ -31,13 +37,15 @@ export default {
                     id: bcrypt.hashSync('Home', 8),
                     name: 'Home',
                     link: '/',
-                    isActive: false
+                    icon: 'home',
+                    isActive: true
                 },
                 {
                     id: bcrypt.hashSync('About', 8),
                     name: 'About',
                     link: '/about',
-                    isActive: true
+                    icon: 'bookmark',
+                    isActive: false
                 }
             ]
         };
@@ -56,3 +64,12 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep {
+    .dbox-icon-menu {
+        padding-top: 10px;
+        margin-right: 23px;
+    }
+}
+</style>
