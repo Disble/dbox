@@ -93,6 +93,24 @@ a.dropdown-item:hover, .dropdown .dropdown-menu .has-link a:hover, button.dropdo
 .modal-card-foot {
     border-top-color: $grey-light;
 }
+// Dialog
+.dialog .modal-card .modal-card-foot,
+.dialog .modal-card .modal-card-head {
+    background-color: $black-bis;
+}
+.dialog .modal-card .modal-card-body {
+    background-color: $black-ter;
+}
+.dialog .modal-card .modal-card-head .modal-card-title {
+    color: $grey-lighter;
+}
+.dialog .modal-card .modal-card-head {
+    border-bottom-color: $grey-dark;
+}
+.dialog .modal-card .modal-card-foot {
+    border-top-color: $grey-dark;
+}
+
 
 // OVERWRITTING BROWSER STYLES
 ::v-deep {

@@ -380,24 +380,33 @@ export default {
         tile() {
             const pathNormalize = path.normalize(this.tile.path);
             this.app.tile = pathNormalize.split('\\').join('/');
+            this.updateDboxBackground({
+                dboxBackground: this.app.tile
+            });
             console.log('this.app.tile', this.app.tile);
         },
 
         icon() {
             const pathNormalize = path.normalize(this.icon.path);
             this.app.icon = pathNormalize.split('\\').join('/');
+            this.updateDboxBackground({
+                dboxBackground: this.app.icon
+            });
             console.log('this.app.icon', this.app.icon);
         },
 
         background() {
             const pathNormalize = path.normalize(this.background.path);
             this.app.background = pathNormalize.split('\\').join('/');
+            this.updateDboxBackground({
+                dboxBackground: this.app.background
+            });
             console.log('this.app.background', this.app.background);
         }
     },
 
     methods: {
-        ...mapActions(['updateApp']),
+        ...mapActions(['updateApp', 'updateDboxBackground']),
 
         async getPath() {
             let paths = await ipcRenderer.invoke('/tools/dialog', {

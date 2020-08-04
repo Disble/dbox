@@ -50,7 +50,7 @@ import UpdateAppForm from '@/components/apps/UpdateAppForm.vue';
 
 export default {
     computed: {
-        ...mapState(['app'])
+        ...mapState(['app', 'dboxBackground'])
     },
 
     created() {
@@ -61,12 +61,15 @@ export default {
         if (!this.app || !this.app.id || this.app.id !== id) {
             this.getAppById({ id }).then(app => {
                 console.log('App loaded...', app);
+                this.updateDboxBackground({
+                    dboxBackground: this.app.background
+                });
             });
         }
     },
 
     methods: {
-        ...mapActions(['getAppById', 'deleteApp']),
+        ...mapActions(['getAppById', 'deleteApp', 'updateDboxBackground']),
 
         async openApp() {
             this.$buefy.notification.open({
@@ -102,8 +105,8 @@ export default {
 
         removeApp() {
             this.$buefy.dialog.confirm({
-                title: `Borrando ${this.app.title}`,
-                message: `Estas apunto de borrar "${this.app.title}". ¿Estás seguro?`,
+                title: `Borrando "${this.app.title}"`,
+                message: `Estas apunto de borrar "${this.app.title}". </ br> ¿Estás seguro?`,
                 confirmText: 'Borrar',
                 type: 'is-danger',
                 hasIcon: true,

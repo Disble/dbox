@@ -1,7 +1,7 @@
 <template>
   <section
     class="dcal-media is-relative"
-    :style="{ backgroundImage: `url(${backgroundUrl})` }"
+    :style="{ backgroundImage: `url('${dboxBackground}')` }"
   >
     <div class="columns is-gapless">
       <div class="column is-narrow dbox-fullheight acrylic acrylic__black-4">
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import backgroundUrl from '@/assets/blue-and-purple.jpg';
+import { mapState } from 'vuex';
 import Menu from '@/views/Menu';
 
 export default {
@@ -25,10 +25,8 @@ export default {
         Menu
     },
 
-    data() {
-        return {
-            backgroundUrl
-        };
+    computed: {
+        ...mapState(['dboxBackground'])
     },
 
     methods: {

@@ -1,13 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 const { ipcRenderer } = require('electron');
+import backgroundUrl from '@/assets/background-dbox.svg';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
         app: {},
-        apps: []
+        apps: [],
+        dboxBackground: backgroundUrl
     },
 
     mutations: {
@@ -17,6 +19,10 @@ export default new Vuex.Store({
 
         setApps(state, apps) {
             state.apps = apps;
+        },
+
+        setDboxBackground(state, dboxBackground) {
+            state.dboxBackground = dboxBackground;
         }
     },
 
@@ -68,6 +74,11 @@ export default new Vuex.Store({
             console.log('store deleteApp', numReplaced);
             context.commit('setApp', {});
             return numReplaced;
+        },
+
+        updateDboxBackground(context, payload) {
+            console.log('updateDboxBackground', payload);
+            context.commit('setDboxBackground', payload.dboxBackground);
         }
     },
     modules: {}

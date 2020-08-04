@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import backgroundUrl from '@/assets/background-dbox.svg';
 import { mapState, mapActions } from 'vuex';
 import CreateAppForm from '@/components/apps/CreateAppForm.vue';
 
@@ -81,10 +82,11 @@ export default {
         this.getApps().then(apps => {
             console.log('Apps loaded...', apps);
         });
+        this.updateDboxBackground({ dboxBackground: backgroundUrl });
     },
 
     methods: {
-        ...mapActions(['getApps']),
+        ...mapActions(['getApps', 'updateDboxBackground']),
 
         addApp() {
             this.$buefy.modal.open({
