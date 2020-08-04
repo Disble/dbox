@@ -11,9 +11,31 @@
         />
         <span>Open</span>
       </button>
+
+      <button
+        class="button is-black mt-4 ml-4"
+        @click="updateApp"
+      >
+        <b-icon
+          icon="sliders-h"
+          size="is-small"
+        />
+      </button>
+
+      <button
+        class="button is-black mt-4 ml-4"
+        @click="removeApp"
+      >
+        <b-icon
+          icon="trash-alt"
+          size="is-small"
+        />
+      </button>
     </div>
     <section class="section">
-      <h1 class="title has-text-centered has-text-white">{{ app.title }}</h1>
+      <h1 class="title has-text-centered has-text-white">
+        {{ app.title }}
+      </h1>
       <figure class="image is-128x128">
         <img :src="app.tile">
       </figure>
@@ -24,6 +46,7 @@
 <script>
 const { shell } = require('electron');
 import { mapState, mapActions } from 'vuex';
+import UpdateAppForm from '@/components/apps/UpdateAppForm.vue';
 
 export default {
     computed: {
@@ -43,7 +66,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['getAppById']),
+        ...mapActions(['getAppById', 'deleteApp']),
 
         async openApp() {
             this.$buefy.notification.open({
@@ -51,6 +74,45 @@ export default {
                 type: 'is-black'
             });
             await shell.openExternal(this.app.path);
+        },
+
+        updateApp() {
+            this.$buefy.modal.open({
+                parent: this,
+                component: UpdateAppForm,
+                hasModalCard: true,
+                customClass: 'acrylic__modal',
+                trapFocus: true,
+                events: {
+                    close: args => {
+                        const { submited } = args;
+                        if (submited === true) {
+                            this.getApps().then(apps => {
+                                console.log('Apps reloaded...', apps);
+                            });
+                            this.$buefy.notification.open({
+                                message: 'App actualizada',
+                                type: 'is-success'
+                            });
+                        }
+                    }
+                }
+            });
+        },
+
+        removeApp() {
+            this.$buefy.dialog.confirm({
+                title: `Borrando ${this.app.title}`,
+                message: `Estas apunto de borrar "${this.app.title}". ¿Estás seguro?`,
+                confirmText: 'Borrar',
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () =>
+                    this.deleteApp({ appId: this.app._id }).then(res => {
+                        console.log('Apps reloaded...', res);
+                        this.$router.push({ name: 'Home' });
+                    })
+            });
         }
     }
 };

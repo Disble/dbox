@@ -87,16 +87,26 @@ export default {
         ...mapActions(['getApps']),
 
         addApp() {
-            // this.$buefy.notification.open({
-            //     message: 'Clicked!!',
-            //     type: 'is-black'
-            // });
             this.$buefy.modal.open({
                 parent: this,
                 component: CreateAppForm,
                 hasModalCard: true,
-                customClass: 'acrylic__modal'
-                // trapFocus: true
+                customClass: 'acrylic__modal',
+                trapFocus: true,
+                events: {
+                    close: args => {
+                        const { submited } = args;
+                        if (submited === true) {
+                            this.getApps().then(apps => {
+                                console.log('Apps reloaded...', apps);
+                            });
+                            this.$buefy.notification.open({
+                                message: 'App creada',
+                                type: 'is-success'
+                            });
+                        }
+                    }
+                }
             });
         }
     }

@@ -39,13 +39,35 @@ export default new Vuex.Store({
         },
 
         async createApp(context, payload) {
-            let res = await ipcRenderer.invoke(
+            let appCreated = await ipcRenderer.invoke(
                 '/api/app',
                 { method: 'post', params: { app: payload.app } }
             );
-            console.log('store createApp', res);
-            context.commit('setApp', res);
-            return res;
+            console.log('store createApp', appCreated);
+            context.commit('setApp', appCreated);
+            return appCreated;
+        },
+
+        async updateApp(context, payload) {
+            let numReplaced = await ipcRenderer.invoke(
+                '/api/app',
+                { method: 'put', params: { appId: payload.appId, app: payload.app } }
+            );
+            console.log('store updateApp', numReplaced);
+            const app = payload.app;
+            app._id = payload.appId;
+            context.commit('setApp', app);
+            return numReplaced;
+        },
+
+        async deleteApp(context, payload) {
+            let numReplaced = await ipcRenderer.invoke(
+                '/api/app',
+                { method: 'delete', params: { appId: payload.appId } }
+            );
+            console.log('store deleteApp', numReplaced);
+            context.commit('setApp', {});
+            return numReplaced;
         }
     },
     modules: {}

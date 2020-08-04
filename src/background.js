@@ -79,7 +79,7 @@ function createWindow() {
             },
             delete: async () => {
                 const { appId } = params;
-                return await appService.delete({ appId });
+                return await appService.deleteApp({ appId });
             }
         }
         // console.log('ipcMain.handle(/api/app)', methods, method, params);

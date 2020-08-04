@@ -5,8 +5,8 @@
       v-slot="{ handleSubmit }"
     >
       <div class="has-background-grey-darker is-relative">
-        <h1 class="has-text-white is-size-5 py-3 px-4">
-          Nueva app
+        <h1 class="dbox-title has-text-white is-size-5 py-3 px-4">
+          Editando "{{ app.title }}"
         </h1>
       </div>
       <section class="section dbox-form-modal">
@@ -336,7 +336,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { ipcRenderer } from 'electron';
 import path from 'path';
 
@@ -348,9 +348,9 @@ export default {
             background: {},
             file: {},
             errorPath: '',
-            tileURL: false,
-            iconURL: false,
-            backgroundURL: false,
+            tileURL: true,
+            iconURL: true,
+            backgroundURL: true,
             tags: [
                 {
                     name: 'Productividad'
@@ -362,22 +362,13 @@ export default {
                     name: 'Referencias'
                 }
             ],
-            filteredTags: [],
-            app: {
-                title: '',
-                create_date: null,
-                rating: 0,
-                tags: [],
-                visiblity: true,
-                tile: '',
-                background: '',
-                icon: '',
-                path: ''
-            }
+            filteredTags: []
         };
     },
 
     computed: {
+        ...mapState(['app']),
+
         pathName() {
             return this.app.path !== ''
                 ? `${this.app.path.substring(0, 35)}...`
@@ -406,7 +397,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['createApp']),
+        ...mapActions(['updateApp']),
 
         async getPath() {
             let paths = await ipcRenderer.invoke('/tools/dialog', {
@@ -467,9 +458,21 @@ export default {
 
             console.log('Se envia y nada más que', this.app);
 
-            this.createApp({ app: this.app }).then(app => {
+            const app = {
+                title: this.app.title,
+                create_date: this.app.create_date,
+                rating: this.app.rating,
+                tags: this.app.tags,
+                visiblity: this.app.visiblity,
+                tile: this.app.tile,
+                background: this.app.background,
+                icon: this.app.icon,
+                path: this.app.path
+            };
+
+            this.updateApp({ appId: this.app._id, app }).then(app => {
                 // Retorna el objeto creado en la base de datos
-                console.log('App created...', app);
+                console.log('App updated...', app);
                 this.$emit('close', { submited: true });
             });
         },
@@ -542,6 +545,7 @@ export default {
         width: 110px;
         height: 110px;
     }
+    .dbox-title,
     .control,
     .field,
     .taginput-container {
