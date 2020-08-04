@@ -16,17 +16,16 @@
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light">
         RECENTLY LAUNCHED BY ME
       </h1>
-      <div class="is-flex">
+      <div class="is-flex buttons">
         <router-link
-          v-for="(app, i) in apps"
+          v-for="app in apps"
           :key="app._id"
           :to="`/detail/${app._id}`"
           class="mt-4"
         >
           <div
-            class="dbox-app-card"
+            class="dbox-app-card mr-5"
             :style="{ backgroundImage: `url('${app.tile}')` }"
-            :class="{ 'ml-5': i > 0 }"
           />
         </router-link>
       </div>
