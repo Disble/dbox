@@ -6,7 +6,15 @@ import {
     faLink,
     faPlus,
     faBookmark,
-    faPlay
+    faPlay,
+    faUpload,
+    faCheck,
+    faEye,
+    faExclamationCircle,
+    faTag,
+    faStar,
+    faSortDown,
+    faSortUp
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -15,6 +23,14 @@ library.add(
     faLink,
     faPlus,
     faBookmark,
-    faPlay
+    faPlay,
+    faUpload,
+    faCheck,
+    faEye,
+    faExclamationCircle,
+    faTag,
+    faStar,
+    faSortDown,
+    faSortUp
 );
 Vue.component('vue-fontawesome', FontAwesomeIcon);

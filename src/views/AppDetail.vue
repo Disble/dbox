@@ -36,8 +36,8 @@ export default {
         console.log('app id', id);
 
         if (!this.app || !this.app.id || this.app.id !== id) {
-            this.getAppById({ id }).then(() => {
-                console.log('App loaded...');
+            this.getAppById({ id }).then(app => {
+                console.log('App loaded...', app);
             });
         }
     },

@@ -1,8 +1,9 @@
 'use strict';
 
-import { app, protocol, BrowserWindow } from 'electron';
+import { app, protocol, BrowserWindow, ipcMain } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+import AppService from './services/apps';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -23,9 +24,73 @@ function createWindow() {
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+            webSecurity: false
         },
     });
     win.maximize();
+    const appService = new AppService();
+    // const word = {
+    //     title: 'Word',
+    //     tile: 'https://www.muycomputer.com/wp-content/uploads/2020/02/Microsoft-Word-560x600.jpg',
+    //     background: '',
+    //     icon: '',
+    //     release_date: new Date(),
+    //     rating: 0,
+    //     create_date: new Date,
+    //     tags: [],
+    //     visiblity: true,
+    //     path: path.normalize("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Word.lnk")
+    // };
+    // const powerpoint = {
+    //     title: 'Power Point',
+    //     tile: 'https://us.123rf.com/450wm/dennizn/dennizn1606/dennizn160600056/58006921-montreal-canad%C3%A1-23-de-mayo-2016-logotipo-de-microsoft-office-powerpoint-en-una-pantalla-de-tel%C3%A9fono-m%C3%B3vil-m.jpg?ver=6',
+    //     background: '',
+    //     icon: '',
+    //     release_date: new Date(),
+    //     rating: 0,
+    //     create_date: new Date,
+    //     tags: [],
+    //     visiblity: true,
+    //     path: path.normalize("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\PowerPoint.lnk")
+    // };
+    // // Valores de prueba
+    // appService.createApp({ app: word });
+    // appService.createApp({ app: powerpoint });
+
+
+    // Functions asyncs for redered process
+    ipcMain.handle('/api/app', (_event, args) => {
+        const { method, params } = args;
+        const methods = {
+            get: async () => {
+                if (params !== undefined) {
+                    const { appId } = params;
+                    return await appService.getApp({ appId });
+                }
+                return await appService.getApps();
+            },
+            post: async () => {
+                const { app } = params;
+                return await appService.createApp({ app });
+            },
+            put: async () => {
+                const { appId, app } = params;
+                return await appService.updateApp({ appId, app });
+            },
+            delete: async () => {
+                const { appId } = params;
+                return await appService.delete({ appId });
+            }
+        }
+        // console.log('ipcMain.handle(/api/app)', methods, method, params);
+        return methods[method]();
+    });
+
+    ipcMain.handle('/tools/dialog', (_event, args) => {
+        const { dialog } = require('electron');
+        const { options } = args;
+        return dialog.showOpenDialogSync(options);
+    });
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
@@ -72,6 +137,10 @@ app.on('ready', async () => {
         }
     }
     createWindow();
+    protocol.registerFileProtocol('file', (request, callback) => {
+        const pathname = decodeURI(request.url.replace('file:///', ''));
+        callback(pathname);
+    });
 });
 
 // Exit cleanly on request from parent process in development mode.

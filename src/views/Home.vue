@@ -13,124 +13,90 @@
       </button>
     </div>
     <section class="section">
-      <h1 class="has-text-weight-bold is-size-7 has-text-grey-light">RECENTLY LAUNCHED BY ME</h1>
+      <h1 class="has-text-weight-bold is-size-7 has-text-grey-light">
+        RECENTLY LAUNCHED BY ME
+      </h1>
       <div class="is-flex">
         <router-link
-          to="/detail/1"
+          v-for="(app, i) in apps"
+          :key="app._id"
+          :to="`/detail/${app._id}`"
           class="mt-4"
         >
           <div
             class="dbox-app-card"
-            style="background-image: url(https://www.muycomputer.com/wp-content/uploads/2020/02/Microsoft-Word-560x600.jpg)"
-          />
-        </router-link>
-        <router-link
-          to="/detail/2"
-          class="mt-4 ml-5"
-        >
-          <div
-            class="dbox-app-card"
-            style="background-image: url(https://us.123rf.com/450wm/dennizn/dennizn1606/dennizn160600056/58006921-montreal-canad%C3%A1-23-de-mayo-2016-logotipo-de-microsoft-office-powerpoint-en-una-pantalla-de-tel%C3%A9fono-m%C3%B3vil-m.jpg?ver=6)"
+            :style="{ backgroundImage: `url('${app.tile}')` }"
+            :class="{ 'ml-5': i > 0 }"
           />
         </router-link>
       </div>
-      <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">THIS MONTH'S SUMMARY</h1>
+      <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
+        THIS MONTH'S SUMMARY
+      </h1>
       <div class="is-flex">
         <p class="has-text-grey mt-3">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, illum saepe! Modi minima id numquam non ea quis doloremque molestias ipsum laudantium natus et, eveniet dignissimos culpa iusto amet accusantium?
         </p>
       </div>
-      <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">RECENTLY ADDED</h1>
+      <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
+        RECENTLY ADDED
+      </h1>
       <ul class="mt-3">
-        <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
-          <span>
-            <figure class="image is-16x16 mr-3">
-              <img
-                class="is-rounded dbox-icon-app"
-                src="https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/1024/Microsoft-Office-Word-icon.png"
-              >
-            </figure>
-          </span>
-          <span>Ligeo</span>
-        </li>
-        <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
-          <span>
-            <figure class="image is-16x16 mr-3">
-              <img
-                class="is-rounded dbox-icon-app"
-                src="https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/1024/Microsoft-Office-Word-icon.png"
-              >
-            </figure>
-          </span>
-          <span>Autoreas</span>
-        </li>
-        <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
-          <span>
-            <figure class="image is-16x16 mr-3">
-              <img
-                class="is-rounded dbox-icon-app"
-                src="https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/1024/Microsoft-Office-Word-icon.png"
-              >
-            </figure>
-          </span>
-          <span>D-cal</span>
-        </li>
-        <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
-          <span>
-            <figure class="image is-16x16 mr-3">
-              <img
-                class="is-rounded dbox-icon-app"
-                src="https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/1024/Microsoft-Office-Word-icon.png"
-              >
-            </figure>
-          </span>
-          <span>GOG Galaxy</span>
-        </li>
-        <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
-          <span>
-            <figure class="image is-16x16 mr-3">
-              <img
-                class="is-rounded dbox-icon-app"
-                src="https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/1024/Microsoft-Office-Word-icon.png"
-              >
-            </figure>
-          </span>
-          <span>Notion</span>
-        </li>
-        <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
-          <span>
-            <figure class="image is-16x16 mr-3">
-              <img
-                class="is-rounded dbox-icon-app"
-                src="https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/1024/Microsoft-Office-Word-icon.png"
-              >
-            </figure>
-          </span>
-          <span>Microsoft Edge</span>
-        </li>
-        <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
-          <span>
-            <figure class="image is-16x16 mr-3">
-              <img
-                class="is-rounded dbox-icon-app"
-                src="https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/1024/Microsoft-Office-Word-icon.png"
-              >
-            </figure>
-          </span>
-          <span>Vivaldi</span>
-        </li>
+        <router-link
+          v-for="app in apps"
+          :key="app._id"
+          :to="`/detail/${app._id}`"
+        >
+          <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
+            <span>
+              <figure class="image is-16x16 mr-3">
+                <img
+                  class="is-rounded dbox-icon-app"
+                  :src="app.icon"
+                >
+              </figure>
+            </span>
+            <span>{{ app.title }}</span>
+          </li>
+        </router-link>
       </ul>
     </section>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+import CreateAppForm from '@/components/apps/CreateAppForm.vue';
+
 export default {
+    computed: {
+        ...mapState(['apps'])
+    },
+
+    created() {
+        console.log('created Home');
+
+        // Here use `then` instead async/await because it can't use async
+        // with the hooks on Vue.js
+        this.getApps().then(apps => {
+            console.log('Apps loaded...', apps);
+        });
+    },
+
     methods: {
+        ...mapActions(['getApps']),
+
         addApp() {
-            this.$buefy.notification.open({
-                message: 'Clicked!!',
-                type: 'is-black'
+            // this.$buefy.notification.open({
+            //     message: 'Clicked!!',
+            //     type: 'is-black'
+            // });
+            this.$buefy.modal.open({
+                parent: this,
+                component: CreateAppForm,
+                hasModalCard: true,
+                customClass: 'acrylic__modal'
+                // trapFocus: true
             });
         }
     }
@@ -139,12 +105,6 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep {
-    .justify-content-center {
-        justify-content: center;
-    }
-    .align-items-center {
-        align-items: center;
-    }
     .dbox-app-card {
         width: 110px;
         height: 146.67px;
