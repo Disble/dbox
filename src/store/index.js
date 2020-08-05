@@ -9,7 +9,10 @@ export default new Vuex.Store({
     state: {
         app: {},
         apps: [],
-        dboxBackground: backgroundUrl
+        dboxBackground: {
+            backgroundUrl,
+            path: 'home'
+        }
     },
 
     mutations: {
@@ -22,7 +25,12 @@ export default new Vuex.Store({
         },
 
         setDboxBackground(state, dboxBackground) {
-            state.dboxBackground = dboxBackground;
+            if (dboxBackground.path === undefined) {
+                state.dboxBackground.path = dboxBackground.path;
+            } else {
+                state.dboxBackground = dboxBackground;
+            }
+            console.log('dboxBackground', state.dboxBackground);
         }
     },
 

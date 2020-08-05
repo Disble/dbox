@@ -62,7 +62,10 @@ export default {
             this.getAppById({ id }).then(app => {
                 console.log('App loaded...', app);
                 this.updateDboxBackground({
-                    dboxBackground: this.app.background
+                    dboxBackground: {
+                        backgroundUrl: this.app.background,
+                        path: 'detail'
+                    }
                 });
             });
         }

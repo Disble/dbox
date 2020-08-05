@@ -4,8 +4,8 @@
 /* Now all the acrylic layer is just only one class! */
 .acrylic {
     /* Parent background + Gaussian blur */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
 
     /* Exclusion blend */
     background-blend-mode: exclusion;
@@ -31,6 +31,14 @@
     &__black-4 {
         /* Color/tint overlay + Opacity */
         background: rgba(0, 0, 0, 0.8);
+    }
+    &__blur-0 {
+        backdrop-filter: blur(0) !important;
+        -webkit-backdrop-filter: blur(0) !important;   
+    }
+    &__blur-1 {
+        backdrop-filter: blur(1px) !important;
+        -webkit-backdrop-filter: blur(1px) !important;   
     }
 }
 .acrylic__modal {
