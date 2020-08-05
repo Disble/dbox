@@ -1,8 +1,9 @@
-import dboxAppsDB from './database';
+import Database from './database';
 
 export default class NeDBLib {
-    constructor() {
-        this.db = dboxAppsDB;
+    constructor(collection) {
+        const dboxDB = new Database(collection);
+        this.db = dboxDB.getInstance();
     }
 
     getAll(query, sort = null, skip = null, limit = null, projection = null) {

@@ -4,6 +4,7 @@ import { app, protocol, BrowserWindow, ipcMain } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import AppService from './services/apps';
+import BoxService from './services/boxes';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -29,6 +30,7 @@ function createWindow() {
     });
     win.maximize();
     const appService = new AppService();
+    const boxService = new BoxService();
     // const word = {
     //     title: 'Word',
     //     tile: 'https://www.muycomputer.com/wp-content/uploads/2020/02/Microsoft-Word-560x600.jpg',
@@ -83,6 +85,32 @@ function createWindow() {
             }
         }
         // console.log('ipcMain.handle(/api/app)', methods, method, params);
+        return methods[method]();
+    });
+
+    ipcMain.handle('/api/box', (_event, args) => {
+        const { method, params } = args;
+        const methods = {
+            get: async () => {
+                if (params !== undefined) {
+                    const { boxId } = params;
+                    return await boxService.getBox({ boxId });
+                }
+                return await boxService.getBoxes();
+            },
+            post: async () => {
+                const { box } = params;
+                return await boxService.createBox({ box });
+            },
+            put: async () => {
+                const { boxId, box } = params;
+                return await boxService.updateBox({ boxId, box });
+            },
+            delete: async () => {
+                const { boxId } = params;
+                return await boxService.deleteBox({ boxId });
+            }
+        }
         return methods[method]();
     });
 

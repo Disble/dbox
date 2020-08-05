@@ -2,7 +2,7 @@ import NeDBLib from '../lib/nedb';
 
 export default class AppService {
     constructor() {
-        this.db = new NeDBLib();
+        this.db = new NeDBLib('apps');
     }
 
     async getApps() {
