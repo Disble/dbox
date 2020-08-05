@@ -23,7 +23,7 @@
           >
             <b-input
               v-model="app.title"
-              placeholder="Añade el título de tu aplicación"
+              placeholder="Añade el título de tu app"
               custom-class="has-background-black-ter has-text-grey-light"
             />
           </b-field>
@@ -127,7 +127,7 @@
                       size="is-small"
                       custom-class="dbox-icon-top-10"
                     />
-                    Drop your files here or click to upload
+                    Suelta tus archivos aquí o haz clic para subir
                   </p>
                 </div>
               </section>
@@ -198,7 +198,7 @@
                       size="is-small"
                       custom-class="dbox-icon-top-10"
                     />
-                    Drop your files here or click to upload
+                    Suelta tus archivos aquí o haz clic para subir
                   </p>
                 </div>
               </section>
@@ -269,7 +269,7 @@
                       size="is-small"
                       custom-class="dbox-icon-top-10"
                     />
-                    Drop your files here or click to upload
+                    Suelta tus archivos aquí o haz clic para subir
                   </p>
                 </div>
               </section>

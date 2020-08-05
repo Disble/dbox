@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 // internal icons
 import {
-    faHome,
+    faClock,
     faLink,
     faPlus,
     faBookmark,
@@ -16,12 +16,14 @@ import {
     faSortDown,
     faSortUp,
     faSlidersH,
-    faTrashAlt
+    faTrashAlt,
+    faNetworkWired,
+    faDesktop
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
-    faHome,
+    faClock,
     faLink,
     faPlus,
     faBookmark,
@@ -35,6 +37,8 @@ library.add(
     faSortDown,
     faSortUp,
     faSlidersH,
-    faTrashAlt
+    faTrashAlt,
+    faNetworkWired,
+    faDesktop
 );
 Vue.component('vue-fontawesome', FontAwesomeIcon);

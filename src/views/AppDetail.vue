@@ -73,7 +73,7 @@ export default {
 
         async openApp() {
             this.$buefy.notification.open({
-                message: 'Opened!!',
+                message: '¡Abriendo!',
                 type: 'is-black'
             });
             await shell.openExternal(this.app.path);

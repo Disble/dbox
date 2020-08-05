@@ -1,7 +1,7 @@
 <template>
   <aside class="menu">
     <p class="menu-label">
-      Boxes
+      Cajas
     </p>
     <ul class="menu-list">
       <li
@@ -34,15 +34,29 @@ export default {
         return {
             menu: [
                 {
-                    id: bcrypt.hashSync('Home', 8),
-                    name: 'Home',
+                    id: bcrypt.hashSync('Recientes', 8),
+                    name: 'Recientes',
                     link: '/',
-                    icon: 'home',
+                    icon: 'clock',
                     isActive: true
                 },
                 {
-                    id: bcrypt.hashSync('About', 8),
-                    name: 'About',
+                    id: bcrypt.hashSync('Local', 8),
+                    name: 'Local',
+                    link: '/about',
+                    icon: 'desktop',
+                    isActive: false
+                },
+                {
+                    id: bcrypt.hashSync('Online', 8),
+                    name: 'Online',
+                    link: '/about',
+                    icon: 'network-wired',
+                    isActive: false
+                },
+                {
+                    id: bcrypt.hashSync('Productividad', 8),
+                    name: 'Productividad',
                     link: '/about',
                     icon: 'bookmark',
                     isActive: false

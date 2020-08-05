@@ -9,12 +9,12 @@
           icon="plus"
           size="is-small"
         />
-        <span>Add apps & links</span>
+        <span>Agregar apps & links</span>
       </button>
     </div>
     <section class="section">
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light">
-        RECENTLY LAUNCHED BY ME
+        RECIENTEMENTE LANZADA POR MÍ
       </h1>
       <div class="is-flex buttons">
         <router-link
@@ -30,7 +30,7 @@
         </router-link>
       </div>
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
-        THIS MONTH'S SUMMARY
+        RESUMEN DE ESTE MES
       </h1>
       <div class="is-flex">
         <p class="has-text-grey mt-3">
@@ -38,7 +38,7 @@
         </p>
       </div>
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
-        RECENTLY ADDED
+        RECIENTEMENTE AÑADIDAS
       </h1>
       <ul class="mt-3">
         <router-link
