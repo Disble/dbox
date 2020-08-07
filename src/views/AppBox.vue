@@ -76,14 +76,13 @@ export default {
         $route(to) {
             // react to route changes...
             this.getBox(to.params.id);
+            this.nameBox = this.$route.params.nameBox;
         }
     },
 
     created() {
         const id = this.$route.params.id;
-        this.nameBox = this.$route.params.name;
-
-        // console.log('box id', id);
+        this.nameBox = this.$route.params.nameBox;
 
         this.getBox(id);
 

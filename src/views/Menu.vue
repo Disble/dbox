@@ -11,7 +11,7 @@
       >
         <router-link
           :class="{ 'is-active': item.isActive }"
-          :to="{ path: item.link, params: { name: item.name } }"
+          :to="{ name: item.nameLink, params: { id: item.id, nameBox: item.nameBox } }"
         >
           <b-icon
             pack="fas"
@@ -19,7 +19,7 @@
             size="is-small"
             custom-class="dbox-icon-menu"
           />
-          {{ item.name }}
+          {{ item.nameBox }}
         </router-link>
       </li>
     </ul>
@@ -35,30 +35,34 @@ export default {
             menu: [
                 {
                     id: bcrypt.hashSync('Recientes', 8),
-                    name: 'Recientes',
+                    nameBox: 'Recientes',
                     link: '/',
                     icon: 'clock',
+                    nameLink: 'Home',
                     isActive: true
                 },
                 {
                     id: '1a',
-                    name: 'Local',
-                    link: `/box/${'1a'}`,
+                    nameBox: 'Local',
+                    link: `/box`,
                     icon: 'desktop',
+                    nameLink: 'Box',
                     isActive: false
                 },
                 {
                     id: '2b',
-                    name: 'Online',
-                    link: `/box/${'2b'}`,
+                    nameBox: 'Online',
+                    link: `/box`,
                     icon: 'network-wired',
+                    nameLink: 'Box',
                     isActive: false
                 },
                 {
                     id: '3c',
-                    name: 'Productividad',
-                    link: `/box/${'3c'}`,
+                    nameBox: 'Productividad',
+                    link: `/box`,
                     icon: 'bookmark',
+                    nameLink: 'Box',
                     isActive: false
                 }
             ]
