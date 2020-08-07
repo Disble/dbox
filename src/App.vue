@@ -1,18 +1,8 @@
 <template>
   <div id="app">
-    <layout />
+    <router-view />
   </div>
 </template>
-
-<script>
-import Layout from '@/views/Layout';
-
-export default {
-    components: {
-        Layout
-    }
-};
-</script>
 
 <style lang="scss">
 // Import Bulma's core

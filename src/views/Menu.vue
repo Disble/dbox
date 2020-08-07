@@ -11,7 +11,7 @@
       >
         <router-link
           :class="{ 'is-active': item.isActive }"
-          :to="item.link"
+          :to="{ path: item.link, params: { name: item.name } }"
         >
           <b-icon
             pack="fas"
@@ -41,28 +41,38 @@ export default {
                     isActive: true
                 },
                 {
-                    id: bcrypt.hashSync('Local', 8),
+                    id: '1a',
                     name: 'Local',
-                    link: '/about',
+                    link: `/box/${'1a'}`,
                     icon: 'desktop',
                     isActive: false
                 },
                 {
-                    id: bcrypt.hashSync('Online', 8),
+                    id: '2b',
                     name: 'Online',
-                    link: '/about',
+                    link: `/box/${'2b'}`,
                     icon: 'network-wired',
                     isActive: false
                 },
                 {
-                    id: bcrypt.hashSync('Productividad', 8),
+                    id: '3c',
                     name: 'Productividad',
-                    link: '/about',
+                    link: `/box/${'3c'}`,
                     icon: 'bookmark',
                     isActive: false
                 }
             ]
         };
+    },
+
+    created() {
+        // console.log('this.$route from Menu', this.$route);
+        this.menu.forEach(route => {
+            if (route.id === this.$route.params.id) {
+                this.toggleActive(route);
+                return;
+            }
+        });
     },
 
     methods: {

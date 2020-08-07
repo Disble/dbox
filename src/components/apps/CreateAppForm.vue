@@ -389,19 +389,16 @@ export default {
         tile() {
             const pathNormalize = path.normalize(this.tile.path);
             this.app.tile = pathNormalize.split('\\').join('/');
-            console.log('this.app.tile', this.app.tile);
         },
 
         icon() {
             const pathNormalize = path.normalize(this.icon.path);
             this.app.icon = pathNormalize.split('\\').join('/');
-            console.log('this.app.icon', this.app.icon);
         },
 
         background() {
             const pathNormalize = path.normalize(this.background.path);
             this.app.background = pathNormalize.split('\\').join('/');
-            console.log('this.app.background', this.app.background);
         }
     },
 
@@ -465,11 +462,8 @@ export default {
                 this.errorPath = '';
             }
 
-            console.log('Se envia y nada más que', this.app);
-
-            this.createApp({ app: this.app }).then(app => {
+            this.createApp({ app: this.app }).then(() => {
                 // Retorna el objeto creado en la base de datos
-                console.log('App created...', app);
                 this.$emit('close', { submited: true });
             });
         },

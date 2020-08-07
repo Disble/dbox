@@ -24,7 +24,7 @@
           class="mt-4"
         >
           <div
-            class="dbox-app-card mr-5"
+            class="dbox-app-card mr-4"
             :style="{ backgroundImage: `url('${app.tile}')` }"
           />
         </router-link>
@@ -64,26 +64,20 @@
 </template>
 
 <script>
-// import backgroundUrl from '@/assets/background-dbox.svg';
 import { mapState, mapActions } from 'vuex';
 import CreateAppForm from '@/components/apps/CreateAppForm.vue';
 
 export default {
     computed: {
-        ...mapState(['apps', 'dboxBackground'])
+        ...mapState(['apps'])
     },
 
     created() {
-        console.log('created Home');
-
         // Here use `then` instead async/await because it can't use async
         // with the hooks on Vue.js
-        this.getApps().then(apps => {
-            console.log('Apps loaded...', apps);
-        });
+        this.getApps();
         this.updateDboxBackground({
             dboxBackground: {
-                backgroundUrl: this.dboxBackground.backgroundUrl,
                 path: 'home'
             }
         });
@@ -103,9 +97,7 @@ export default {
                     close: args => {
                         const { submited } = args;
                         if (submited === true) {
-                            this.getApps().then(apps => {
-                                console.log('Apps reloaded...', apps);
-                            });
+                            this.getApps();
                             this.$buefy.notification.open({
                                 message: 'App creada',
                                 type: 'is-success'
@@ -122,8 +114,8 @@ export default {
 <style lang="scss" scoped>
 ::v-deep {
     .dbox-app-card {
-        width: 110px;
-        height: 146.67px;
+        width: 99px;
+        height: 132px;
         border-radius: 5px;
         background-size: cover;
         background-repeat: no-repeat;

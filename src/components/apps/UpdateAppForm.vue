@@ -65,6 +65,7 @@
             <p
               v-if="pathName"
               class="has-text-white-bis has-background-grey-darker has-text-centered mt-3 dbox-rounded-link"
+              @click="copyClipboard"
             >
               {{ pathName }}
             </p>
@@ -336,6 +337,7 @@
 </template>
 
 <script>
+const { clipboard } = require('electron');
 import { mapState, mapActions } from 'vuex';
 import { ipcRenderer } from 'electron';
 import path from 'path';
@@ -380,49 +382,38 @@ export default {
         tile() {
             const pathNormalize = path.normalize(this.tile.path);
             this.app.tile = pathNormalize.split('\\').join('/');
-            this.updateDboxBackground({
-                dboxBackground: this.app.tile
-            });
-            console.log('this.app.tile', this.app.tile);
         },
 
         icon() {
             const pathNormalize = path.normalize(this.icon.path);
             this.app.icon = pathNormalize.split('\\').join('/');
-            this.updateDboxBackground({
-                dboxBackground: this.app.icon
-            });
-            console.log('this.app.icon', this.app.icon);
         },
 
         background() {
             const pathNormalize = path.normalize(this.background.path);
             this.app.background = pathNormalize.split('\\').join('/');
             this.updateDboxBackground({
-                dboxBackground: this.app.background
+                dboxBackground: {
+                    backgroundUrl: this.app.background
+                }
             });
-            console.log('this.app.background', this.app.background);
+        },
+
+        app: {
+            handler(newVal) {
+                this.updateDboxBackground({
+                    dboxBackground: {
+                        backgroundUrl: newVal.background,
+                        path: 'update'
+                    }
+                });
+            },
+            deep: true
         }
     },
 
     methods: {
         ...mapActions(['updateApp', 'updateDboxBackground']),
-
-        async getPath() {
-            let paths = await ipcRenderer.invoke('/tools/dialog', {
-                options: {
-                    title: 'Seleccionar',
-                    properties: ['openFile'],
-                    filters: [
-                        {
-                            name: 'Images',
-                            extensions: ['jpg', 'jpeg', 'png', 'gif']
-                        }
-                    ]
-                }
-            });
-            console.log('paths', paths[0]);
-        },
 
         getFilteredTags(text) {
             this.filteredTags = this.tags.filter(option => {
@@ -465,8 +456,6 @@ export default {
                 this.errorPath = '';
             }
 
-            console.log('Se envia y nada más que', this.app);
-
             const app = {
                 title: this.app.title,
                 create_date: this.app.create_date,
@@ -479,15 +468,22 @@ export default {
                 path: this.app.path
             };
 
-            this.updateApp({ appId: this.app._id, app }).then(app => {
+            this.updateApp({ appId: this.app._id, app }).then(() => {
                 // Retorna el objeto creado en la base de datos
-                console.log('App updated...', app);
                 this.$emit('close', { submited: true });
             });
         },
 
         cancel() {
             this.$emit('close', { submited: false });
+        },
+
+        copyClipboard() {
+            clipboard.writeText(this.app.path);
+            this.$buefy.notification.open({
+                message: 'Link copiado al portapapeles',
+                type: 'is-black'
+            });
         }
     }
 };
@@ -515,6 +511,7 @@ export default {
     .dbox-rounded-link {
         border-radius: 4px;
         padding: 6px 8px;
+        cursor: pointer;
     }
     .footer-modal {
         display: flex;

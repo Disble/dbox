@@ -6,7 +6,7 @@
     <div class="columns is-gapless">
       <div
         class="column is-narrow dbox-fullheight acrylic acrylic__black-4"
-        :class="{ 'acrylic__blur-1': dboxBackground.path === 'detail' }"
+        :class="{ 'acrylic__blur-1': dboxBackground.path !== 'home' }"
       >
         <section class="section dbox-menu">
           <Menu />
@@ -14,7 +14,7 @@
       </div>
       <div
         class="column rest dbox-fullheight acrylic acrylic__black"
-        :class="{ 'acrylic__blur-1': dboxBackground.path === 'detail' }"
+        :class="{ 'acrylic__blur-1': dboxBackground.path !== 'home' }"
       >
         <router-view />
       </div>
@@ -33,12 +33,6 @@ export default {
 
     computed: {
         ...mapState(['dboxBackground'])
-    },
-
-    methods: {
-        clickMe() {
-            this.$buefy.notification.open('Clicked!!');
-        }
     }
 };
 </script>

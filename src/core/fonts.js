@@ -18,7 +18,9 @@ import {
     faSlidersH,
     faTrashAlt,
     faNetworkWired,
-    faDesktop
+    faDesktop,
+    faSearch,
+    faFilter
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -39,6 +41,8 @@ library.add(
     faSlidersH,
     faTrashAlt,
     faNetworkWired,
-    faDesktop
+    faDesktop,
+    faSearch,
+    faFilter
 );
 Vue.component('vue-fontawesome', FontAwesomeIcon);

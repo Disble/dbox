@@ -56,11 +56,8 @@ export default {
     created() {
         const id = this.$route.params.id;
 
-        console.log('app id', id);
-
         if (!this.app || !this.app.id || this.app.id !== id) {
-            this.getAppById({ id }).then(app => {
-                console.log('App loaded...', app);
+            this.getAppById({ id }).then(() => {
                 this.updateDboxBackground({
                     dboxBackground: {
                         backgroundUrl: this.app.background,
@@ -93,9 +90,7 @@ export default {
                     close: args => {
                         const { submited } = args;
                         if (submited === true) {
-                            this.getApps().then(apps => {
-                                console.log('Apps reloaded...', apps);
-                            });
+                            this.getApps();
                             this.$buefy.notification.open({
                                 message: 'App actualizada',
                                 type: 'is-success'
@@ -114,8 +109,7 @@ export default {
                 type: 'is-danger',
                 hasIcon: true,
                 onConfirm: () =>
-                    this.deleteApp({ appId: this.app._id }).then(res => {
-                        console.log('Apps reloaded...', res);
+                    this.deleteApp({ appId: this.app._id }).then(() => {
                         this.$router.push({ name: 'Home' });
                     })
             });

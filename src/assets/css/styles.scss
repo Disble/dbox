@@ -4,8 +4,8 @@
 /* Now all the acrylic layer is just only one class! */
 .acrylic {
     /* Parent background + Gaussian blur */
-    backdrop-filter: blur(35px);
-    -webkit-backdrop-filter: blur(35px);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
 
     /* Exclusion blend */
     background-blend-mode: exclusion;
