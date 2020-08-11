@@ -1,6 +1,10 @@
 # Change Log
 Todos los cambios importantes de dbox van a ser documentados en este archivo.
 
+## [0.3.0]
+### Novedades
+- Hemos agregado un nuevo y flamante ícono para dbox (es la primera versión, se aceptan sugerencias), gracias a [AndyKingche](https://github.com/AndyKingche).
+
 ## [0.2.1]
 ### Novedades
 - Hemos borrado la sección Resumen de este mes de Recientes, la traeremos de nuevo en el futuro.
