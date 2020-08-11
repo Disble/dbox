@@ -1,6 +1,10 @@
 # Change Log
 Todos los cambios importantes de dbox van a ser documentados en este archivo.
 
+## [0.3.1]
+### Corrección de errores
+- Solucionado: Sí, si había otro cuadrado detrás del ícono (cortesía de [AndyKingche](https://github.com/AndyKingche)) de dbox, no estamos locos. Por si no lo notaste antes, ahora podrás ver mucho mejor los detalles del ícono de dbox.
+
 ## [0.3.0]
 ### Novedades
 - Hemos agregado un nuevo y flamante ícono para dbox (es la primera versión, se aceptan sugerencias), gracias a [AndyKingche](https://github.com/AndyKingche).
