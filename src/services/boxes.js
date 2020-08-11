@@ -5,9 +5,11 @@ export default class BoxService {
         this.db = new NeDBLib('boxes');
     }
 
-    async getBoxes() {
-        console.log('getBoxes');
-        const boxes = await this.db.getAll({});
+    async getBoxes(sort = null) {
+        console.log('getBoxes', sort);
+        const querys = [{}];
+        if (sort !== null) querys.push(sort);
+        const boxes = await this.db.getAll(...querys);
         return boxes || [];
     }
 

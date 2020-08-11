@@ -285,19 +285,17 @@
         </b-field>
 
         <b-field
-          label="Etiquetas"
+          label="Cajas (etiquetas)"
           custom-class="has-background-black-ter has-text-grey-light"
         >
           <b-taginput
             v-model="app.tags"
             :data="filteredTags"
-            :allow-new="true"
             :open-on-focus="true"
             autocomplete
-            field="name"
             icon="tag"
             type="is-dark"
-            placeholder="Agrega una etiqueta"
+            placeholder="Agrega dentro de una caja"
             custom-class="has-background-black-ter has-text-grey-light"
             @typing="getFilteredTags"
           />
@@ -336,7 +334,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { ipcRenderer } from 'electron';
 import path from 'path';
 
@@ -351,17 +349,6 @@ export default {
             tileURL: false,
             iconURL: false,
             backgroundURL: false,
-            tags: [
-                {
-                    name: 'Productividad'
-                },
-                {
-                    name: 'Entretenimiento'
-                },
-                {
-                    name: 'Referencias'
-                }
-            ],
             filteredTags: [],
             app: {
                 title: '',
@@ -378,6 +365,8 @@ export default {
     },
 
     computed: {
+        ...mapState(['boxes']),
+
         pathName() {
             return this.app.path !== ''
                 ? `${this.app.path.substring(0, 35)}...`
@@ -403,7 +392,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['createApp']),
+        ...mapActions(['createApp', 'updateBox']),
 
         async getPath() {
             let paths = await ipcRenderer.invoke('/tools/dialog', {
@@ -422,14 +411,15 @@ export default {
         },
 
         getFilteredTags(text) {
-            this.filteredTags = this.tags.filter(option => {
+            const filteredBoxes = this.boxes.filter(box => {
                 return (
-                    option.name
+                    box.title
                         .toString()
                         .toLowerCase()
                         .indexOf(text.toLowerCase()) >= 0
                 );
             });
+            this.filteredTags = filteredBoxes.map(box => box.title);
         },
 
         async setLocalPath() {
@@ -453,7 +443,7 @@ export default {
             });
         },
 
-        submit() {
+        async submit() {
             this.app.create_date = new Date();
             if (this.app.path.length === 0) {
                 this.errorPath = 'El campo Dirección es obligatorio.';
@@ -462,10 +452,21 @@ export default {
                 this.errorPath = '';
             }
 
-            this.createApp({ app: this.app }).then(() => {
-                // Retorna el objeto creado en la base de datos
-                this.$emit('close', { submited: true });
-            });
+            const appCreated = await this.createApp({ app: this.app });
+            const boxesFiltered = [];
+            for (const box of this.boxes) {
+                for (const boxTitle of this.app.tags) {
+                    if (box.title === boxTitle) {
+                        boxesFiltered.push(box);
+                    }
+                }
+            }
+            for (const box of boxesFiltered) {
+                box.apps.push(appCreated._id);
+                await this.updateBox({ boxId: box._id, box: box });
+            }
+
+            this.$emit('close', { submited: true });
         },
 
         cancel() {

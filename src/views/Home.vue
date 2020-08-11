@@ -132,8 +132,6 @@ export default {
         border: 1px solid white;
     }
     .dbox-icon-app__row {
-        // padding-top: 5px;
-        // padding-bottom: 5px;
         padding: 6px 8px;
         border-radius: 1px;
         margin-left: -8px;

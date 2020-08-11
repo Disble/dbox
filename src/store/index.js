@@ -9,10 +9,13 @@ export default new Vuex.Store({
     state: {
         app: {},
         apps: [],
+        appsBox: [],
         dboxBackground: {
             backgroundUrl,
             path: 'home'
-        }
+        },
+        boxes: [],
+        box: {}
     },
 
     mutations: {
@@ -24,12 +27,24 @@ export default new Vuex.Store({
             state.apps = apps;
         },
 
+        setAppsBox(state, appsBox) {
+            state.appsBox = appsBox;
+        },
+
         setDboxBackground(state, dboxBackground) {
             if (dboxBackground.backgroundUrl === undefined) {
                 state.dboxBackground.path = dboxBackground.path;
             } else {
                 state.dboxBackground = dboxBackground;
             }
+        },
+
+        setBoxes(state, boxes) {
+            state.boxes = boxes;
+        },
+
+        setBox(state, box) {
+            state.box = box;
         }
     },
 
@@ -44,9 +59,24 @@ export default new Vuex.Store({
         },
 
         async getApps(context) {
-            let apps = await ipcRenderer.invoke('/api/app', { method: 'get' });
+            const apps = await ipcRenderer.invoke('/api/app', { method: 'get' });
             context.commit('setApps', apps);
             return apps;
+        },
+
+        async getAppsById(context, payload) {
+            let appsBox = await ipcRenderer.invoke(
+                '/api/app',
+                {
+                    method: 'get',
+                    params: { appsId: payload.appsId },
+                    options: {
+                        getAppsById: true
+                    }
+                }
+            );
+            context.commit('setAppsBox', appsBox);
+            return appsBox;
         },
 
         async createApp(context, payload) {
@@ -80,7 +110,52 @@ export default new Vuex.Store({
 
         updateDboxBackground(context, payload) {
             context.commit('setDboxBackground', payload.dboxBackground);
-        }
+        },
+
+        async getBoxes(context) {
+            const boxes = await ipcRenderer.invoke('/api/box', { method: 'get' });
+            console.log('store getBoxes()', boxes);
+            context.commit('setBoxes', boxes);
+            return boxes;
+        },
+
+        async getBoxById(context, payload) {
+            let box = await ipcRenderer.invoke(
+                '/api/box',
+                { method: 'get', params: { boxId: payload.id } }
+            );
+            context.commit('setBox', box);
+            return box;
+        },
+
+        async createBox(context, payload) {
+            let boxCreated = await ipcRenderer.invoke(
+                '/api/box',
+                { method: 'post', params: { box: payload.box } }
+            );
+            context.commit('setBox', boxCreated);
+            return boxCreated;
+        },
+
+        async updateBox(context, payload) {
+            let numReplaced = await ipcRenderer.invoke(
+                '/api/box',
+                { method: 'put', params: { boxId: payload.boxId, box: payload.box } }
+            );
+            const box = payload.box;
+            box._id = payload.boxId;
+            context.commit('setBox', box);
+            return numReplaced;
+        },
+
+        async deleteBox(context, payload) {
+            let numReplaced = await ipcRenderer.invoke(
+                '/api/box',
+                { method: 'delete', params: { boxId: payload.boxId } }
+            );
+            context.commit('setBox', {});
+            return numReplaced;
+        },
     },
     modules: {}
 });

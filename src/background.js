@@ -60,16 +60,62 @@ function createWindow() {
     // appService.createApp({ app: powerpoint });
 
 
+    // const offlineBox = {
+    //     title: 'Local',
+    //     apps: [],
+    //     createdDate: new Date(),
+    //     modifiedDate: null,
+    //     lastLaunchDate: null,
+    //     deleteDate: null,	    		// tentativo porque puede que si se borren
+    //     numLaunch: 0,
+    //     numOpen: 0,
+    //     visible: true,
+    //     defaultSort: '',				// tentativo
+    //     defaultView: 'grid',			// si se ve en lista o con portadas
+    //     customOptions: {				// solo para grid
+    //         title: false,
+    //         rating: false,
+    //         aditionalData: false,
+    //         sizeText: 10
+    //     }
+    // };
+    // const onlineBox = {
+    //     title: 'Online',
+    //     apps: [],
+    //     createdDate: new Date(),
+    //     modifiedDate: null,
+    //     lastLaunchDate: null,
+    //     deleteDate: null,	    		// tentativo porque puede que si se borren
+    //     numLaunch: 0,
+    //     numOpen: 0,
+    //     visible: true,
+    //     defaultSort: '',				// tentativo
+    //     defaultView: 'grid',			// si se ve en lista o con portadas
+    //     customOptions: {				// solo para grid
+    //         title: false,
+    //         rating: false,
+    //         aditionalData: false,
+    //         sizeText: 10
+    //     }
+    // };
+    // boxService.createBox({ box: offlineBox });
+    // boxService.createBox({ box: onlineBox });
+
+
     // Functions asyncs for redered process
     ipcMain.handle('/api/app', (_event, args) => {
-        const { method, params } = args;
+        const { method, params, options } = args;
         const methods = {
             get: async () => {
+                if (options !== undefined && options.getAppsById !== undefined) {
+                    const { appsId } = params;
+                    return await appService.getAppsById(appsId);
+                }
                 if (params !== undefined) {
                     const { appId } = params;
                     return await appService.getApp({ appId });
                 }
-                return await appService.getApps();
+                return await appService.getApps({ createdDate: 1 });
             },
             post: async () => {
                 const { app } = params;
@@ -96,7 +142,7 @@ function createWindow() {
                     const { boxId } = params;
                     return await boxService.getBox({ boxId });
                 }
-                return await boxService.getBoxes();
+                return await boxService.getBoxes({ createdDate: 1 });
             },
             post: async () => {
                 const { box } = params;

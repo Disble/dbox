@@ -8,9 +8,9 @@
         class="column is-narrow dbox-fullheight acrylic acrylic__black-4"
         :class="{ 'acrylic__blur-1': dboxBackground.path !== 'home' }"
       >
-        <section class="section dbox-menu">
+        <div class="dbox-menu">
           <Menu />
-        </section>
+        </div>
       </div>
       <div
         class="column rest dbox-fullheight acrylic acrylic__black"

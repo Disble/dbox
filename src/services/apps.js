@@ -5,9 +5,17 @@ export default class AppService {
         this.db = new NeDBLib('apps');
     }
 
-    async getApps() {
-        console.log('getApps');
-        const apps = await this.db.getAll({});
+    async getApps(sort = null) {
+        console.log('getApps', sort);
+        const querys = [{}];
+        if (sort !== null) querys.push(sort);
+        const apps = await this.db.getAll(...querys);
+        return apps || [];
+    }
+
+    async getAppsById(appsId) {
+        console.log('getAppsById', appsId);
+        const apps = await this.db.getAll({ _id: { $in: appsId } });
         return apps || [];
     }
 

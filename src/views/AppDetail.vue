@@ -9,7 +9,7 @@
           icon="play"
           size="is-small"
         />
-        <span>Open</span>
+        <span>Abrir</span>
       </button>
 
       <button
@@ -53,23 +53,37 @@ export default {
         ...mapState(['app', 'dboxBackground'])
     },
 
-    created() {
-        const id = this.$route.params.id;
-
-        if (!this.app || !this.app.id || this.app.id !== id) {
-            this.getAppById({ id }).then(() => {
-                this.updateDboxBackground({
-                    dboxBackground: {
-                        backgroundUrl: this.app.background,
-                        path: 'detail'
-                    }
-                });
-            });
+    watch: {
+        '$route.params.id'(id) {
+            this.loadApp(id);
         }
     },
 
+    created() {
+        const id = this.$route.params.id;
+        this.loadApp(id);
+    },
+
     methods: {
-        ...mapActions(['getAppById', 'deleteApp', 'updateDboxBackground']),
+        ...mapActions([
+            'getAppById',
+            'getApps',
+            'deleteApp',
+            'updateDboxBackground'
+        ]),
+
+        loadApp(id) {
+            if (!this.app || !this.app.id || this.app.id !== id) {
+                this.getAppById({ id }).then(() => {
+                    this.updateDboxBackground({
+                        dboxBackground: {
+                            backgroundUrl: this.app.background,
+                            path: 'detail'
+                        }
+                    });
+                });
+            }
+        },
 
         async openApp() {
             this.$buefy.notification.open({

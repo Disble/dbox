@@ -3,14 +3,28 @@
     <div class="is-flex justify-content-center">
       <div class="buttons has-addons mt-4 mr-4">
         <button class="button is-black has-text-weight-bold dbox-btn-box">
-          {{ nameBox }}
+          {{ box.title }}
         </button>
         <button class="button is-black has-text-weight-bold has-text-grey-lighter">
           Caja
         </button>
       </div>
 
-      <button class="button is-black mt-4 mr-4 has-text-weight-bold has-text-grey-lighter">
+      <button
+        class="button is-primary mt-4 mr-4"
+        @click="openApps"
+      >
+        <b-icon
+          icon="play"
+          size="is-small"
+        />
+        <span>Abrir todo</span>
+      </button>
+
+      <button
+        class="button is-black mt-4 mr-4 has-text-weight-bold has-text-grey-lighter"
+        @click="filterInBox"
+      >
         <b-icon
           icon="filter"
           size="is-small"
@@ -18,14 +32,20 @@
         <span>Filtrar</span>
       </button>
 
-      <button class="button is-black mt-4 mr-4 has-text-grey-lighter">
+      <button
+        class="button is-black mt-4 mr-4 has-text-grey-lighter"
+        @click="addApp"
+      >
         <b-icon
           icon="plus"
           size="is-small"
         />
       </button>
 
-      <button class="button is-black mt-4 mr-4 has-text-weight-bold has-text-grey-light">
+      <button
+        class="button is-black mt-4 mr-4 has-text-weight-bold has-text-grey-light"
+        @click="searchInBox"
+      >
         <b-icon
           icon="search"
           size="is-small"
@@ -33,7 +53,10 @@
         <span>Buscar</span>
       </button>
 
-      <button class="button is-black mt-4 has-text-grey-lighter">
+      <button
+        class="button is-black mt-4 has-text-grey-lighter"
+        @click="optionsBox"
+      >
         <b-icon
           icon="sliders-h"
           size="is-small"
@@ -43,7 +66,7 @@
     <section class="section">
       <div class="is-flex buttons">
         <router-link
-          v-for="app in apps"
+          v-for="app in appsBox"
           :key="app._id"
           :to="`/detail/${app._id}`"
           class="mt-4"
@@ -59,37 +82,26 @@
 </template>
 
 <script>
+const { shell } = require('electron');
+import SearchApp from '@/components/SearchApp.vue';
 import { mapState, mapActions } from 'vuex';
 
 export default {
-    data() {
-        return {
-            nameBox: 'Local'
-        };
-    },
-
     computed: {
-        ...mapState(['apps'])
+        ...mapState(['box', 'appsBox'])
     },
 
     watch: {
         $route(to) {
             // react to route changes...
-            this.getBox(to.params.id);
-            this.nameBox = this.$route.params.nameBox;
+            this.loadBox(to.params.id);
         }
     },
 
     created() {
-        const id = this.$route.params.id;
-        this.nameBox = this.$route.params.nameBox;
-
-        this.getBox(id);
-
         // Here use `then` instead async/await because it can't use async
         // with the hooks on Vue.js
-        this.getApps();
-
+        this.loadBox(this.$route.params.id);
         this.updateDboxBackground({
             dboxBackground: {
                 path: 'home'
@@ -98,11 +110,66 @@ export default {
     },
 
     methods: {
-        ...mapActions(['getApps', 'updateDboxBackground']),
+        ...mapActions(['getBoxById', 'updateDboxBackground', 'getAppsById']),
 
-        getBox(id) {
-            console.log('getBox()', {
-                id
+        async loadBox(id) {
+            await this.getBoxById({ id });
+            await this.getAppsById({ appsId: this.box.apps });
+        },
+
+        openApps() {
+            this.$buefy.notification.open({
+                message: '¡Abriendo!',
+                type: 'is-black'
+            });
+            for (const app of this.appsBox) {
+                shell.openExternal(app.path);
+            }
+        },
+
+        addApp() {
+            this.$buefy.modal.open({
+                parent: this,
+                component: SearchApp,
+                hasModalCard: true,
+                customClass: 'acrylic__modal',
+                trapFocus: true,
+                props: {
+                    hasBox: true
+                },
+                events: {
+                    close: args => {
+                        const { submited } = args;
+                        if (submited === true) {
+                            this.getAppsById({ appsId: this.box.apps });
+                            this.$buefy.notification.open({
+                                message: 'App agregada',
+                                type: 'is-black'
+                            });
+                        }
+                    }
+                }
+            });
+        },
+
+        optionsBox() {
+            this.$buefy.notification.open({
+                message: 'Próximamente',
+                type: 'is-black'
+            });
+        },
+
+        searchInBox() {
+            this.$buefy.notification.open({
+                message: 'Próximamente',
+                type: 'is-black'
+            });
+        },
+
+        filterInBox() {
+            this.$buefy.notification.open({
+                message: 'Próximamente',
+                type: 'is-black'
             });
         }
     }

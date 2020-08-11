@@ -20,7 +20,9 @@ import {
     faNetworkWired,
     faDesktop,
     faSearch,
-    faFilter
+    faFilter,
+    faTimesCircle,
+    faCog
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -43,6 +45,8 @@ library.add(
     faNetworkWired,
     faDesktop,
     faSearch,
-    faFilter
+    faFilter,
+    faTimesCircle,
+    faCog
 );
 Vue.component('vue-fontawesome', FontAwesomeIcon);

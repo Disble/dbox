@@ -286,19 +286,17 @@
         </b-field>
 
         <b-field
-          label="Etiquetas"
+          label="Cajas (etiquetas)"
           custom-class="has-background-black-ter has-text-grey-light"
         >
           <b-taginput
             v-model="app.tags"
             :data="filteredTags"
-            :allow-new="true"
             :open-on-focus="true"
             autocomplete
-            field="name"
             icon="tag"
             type="is-dark"
-            placeholder="Agrega una etiqueta"
+            placeholder="Agrega dentro de una caja"
             custom-class="has-background-black-ter has-text-grey-light"
             @typing="getFilteredTags"
           />
@@ -369,7 +367,7 @@ export default {
     },
 
     computed: {
-        ...mapState(['app']),
+        ...mapState(['app', 'boxes']),
 
         pathName() {
             return this.app.path !== ''
@@ -416,14 +414,15 @@ export default {
         ...mapActions(['updateApp', 'updateDboxBackground']),
 
         getFilteredTags(text) {
-            this.filteredTags = this.tags.filter(option => {
+            const filteredBoxes = this.boxes.filter(box => {
                 return (
-                    option.name
+                    box.title
                         .toString()
                         .toLowerCase()
                         .indexOf(text.toLowerCase()) >= 0
                 );
             });
+            this.filteredTags = filteredBoxes.map(box => box.title);
         },
 
         async setLocalPath() {
@@ -456,19 +455,7 @@ export default {
                 this.errorPath = '';
             }
 
-            const app = {
-                title: this.app.title,
-                create_date: this.app.create_date,
-                rating: this.app.rating,
-                tags: this.app.tags,
-                visiblity: this.app.visiblity,
-                tile: this.app.tile,
-                background: this.app.background,
-                icon: this.app.icon,
-                path: this.app.path
-            };
-
-            this.updateApp({ appId: this.app._id, app }).then(() => {
+            this.updateApp({ appId: this.app._id, app: this.app }).then(() => {
                 // Retorna el objeto creado en la base de datos
                 this.$emit('close', { submited: true });
             });
