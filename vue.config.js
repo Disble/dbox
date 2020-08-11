@@ -33,7 +33,8 @@ module.exports = {
                     ]
                 },
                 win: {
-                    target: "nsis"
+                    target: "nsis",
+                    icon: "./icons/win/icon.ico"
                 }
             }
         }
