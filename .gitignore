@@ -2,6 +2,7 @@
 node_modules
 /dist
 /ignore
+/build
 
 # local env files
 .env.local
