@@ -30,19 +30,11 @@
         </router-link>
       </div>
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
-        RESUMEN DE ESTE MES
-      </h1>
-      <div class="is-flex">
-        <p class="has-text-grey mt-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, illum saepe! Modi minima id numquam non ea quis doloremque molestias ipsum laudantium natus et, eveniet dignissimos culpa iusto amet accusantium?
-        </p>
-      </div>
-      <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
         RECIENTEMENTE AÑADIDAS
       </h1>
       <ul class="mt-3">
         <router-link
-          v-for="app in apps"
+          v-for="app in appsRecentAdded"
           :key="app._id"
           :to="`/detail/${app._id}`"
         >
@@ -69,7 +61,13 @@ import CreateAppForm from '@/components/apps/CreateAppForm.vue';
 
 export default {
     computed: {
-        ...mapState(['apps'])
+        ...mapState(['apps']),
+
+        appsRecentAdded() {
+            return this.apps
+                .slice()
+                .sort((a, b) => b.create_date - a.create_date);
+        }
     },
 
     created() {
