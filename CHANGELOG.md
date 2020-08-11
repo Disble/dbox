@@ -1,6 +1,12 @@
 # Change Log
 Todos los cambios importantes de dbox van a ser documentados en este archivo.
 
+## [0.2.1]
+### Novedades
+- Hemos borrado la sección Resumen de este mes de Recientes, la traeremos de nuevo en el futuro.
+
+### Corrección de errores
+- Solucionado: Las sección Recientemente añadidas ahora si ordena por apps recientemente añadidas.
 
 ## [0.2.0]
 ### Novedades
