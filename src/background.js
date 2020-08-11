@@ -1,10 +1,11 @@
 'use strict';
 
-import { app, protocol, BrowserWindow, ipcMain } from 'electron';
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import AppService from './services/apps';
 import BoxService from './services/boxes';
+import { autoUpdater } from 'electron-updater';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -174,6 +175,29 @@ function createWindow() {
         createProtocol('app');
         // Load the index.html when not in development
         win.loadURL('app://./index.html');
+    }
+
+    // Loading autoUpdater
+    if (!isDevelopment) {
+        autoUpdater.checkForUpdatesAndNotify();
+        autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+            const dialogOpts = {
+                type: 'info',
+                buttons: ['Reiniciar', 'Después'],
+                title: 'Actualización de dbox',
+                message: process.platform === 'win32' ? releaseNotes : releaseName,
+                detail: 'Una nueva versión ha sido descargada. Reinicie la aplicación para aplicar la actualización.'
+            };
+
+            dialog.showMessageBox(dialogOpts, (response) => {
+                if (response === 0) autoUpdater.quitAndInstall();
+            });
+        });
+
+        autoUpdater.on('error', message => {
+            console.error('Tuvimos un problema actualizando la aplicación');
+            console.error(message);
+        });
     }
 
     win.on('closed', () => {
