@@ -69,6 +69,7 @@
               />
             </router-link>
             <span
+              v-if="box.isEliminable"
               class="is-inline-flex align-items-center dbox-item-menu-trash dbox-box-icon"
               @click="deleteMenuItem(box)"
             >
@@ -117,7 +118,8 @@ export default {
                     icon: 'clock',
                     nameLink: 'Home',
                     isActive: true,
-                    isEditable: false
+                    isEditable: false,
+                    isEliminable: false
                 }
             ]
         };
@@ -232,10 +234,12 @@ export default {
             boxCreatedMenu.nameLink = 'Box';
             boxCreatedMenu.isActive = false;
             boxCreatedMenu.isEditable = isEditable;
+            boxCreatedMenu.isEliminable = true;
             return boxCreatedMenu;
         },
 
         deleteMenuItem(box) {
+            if (!box.isEliminable) return;
             this.$buefy.dialog.confirm({
                 title: `Borrando "${box.title}"`,
                 message: `Estas apunto de borrar "${box.title}". ¿Estás seguro?`,
