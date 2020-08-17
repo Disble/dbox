@@ -13,6 +13,8 @@ $primary: #8c67ef;
 $primary-invert: findColorInvert($primary);
 $twitter: #4099ff;
 $twitter-invert: findColorInvert($twitter);
+$semitransparent: rgba(185, 170, 201, 0.1);
+$semitransparent-invert: findColorInvert($semitransparent);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -55,6 +57,10 @@ $colors: (
     'twitter': (
         $twitter,
         $twitter-invert
+    ),
+    'semi-transparent': (
+        $semitransparent,
+        $semitransparent-invert
     )
 );
 

@@ -22,7 +22,10 @@ import {
     faSearch,
     faFilter,
     faTimesCircle,
-    faCog
+    faCog,
+    faBoxOpen,
+    faProjectDiagram,
+    faWindowMaximize
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -47,6 +50,9 @@ library.add(
     faSearch,
     faFilter,
     faTimesCircle,
-    faCog
+    faCog,
+    faBoxOpen,
+    faProjectDiagram,
+    faWindowMaximize
 );
 Vue.component('vue-fontawesome', FontAwesomeIcon);

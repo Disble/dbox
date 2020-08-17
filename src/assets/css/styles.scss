@@ -159,6 +159,19 @@ a.dropdown-item:hover, .dropdown .dropdown-menu .has-link a:hover, button.dropdo
 .dialog .modal-card .modal-card-foot {
     border-top-color: $grey-dark;
 }
+.button.is-transparent {
+    background: transparent;
+    border: 0;
+    color: hsl(0, 0%, 71%);
+    &:hover {
+        background: transparent;
+        color: hsl(0, 0%, 86%);
+    }
+    &:active {
+        background: transparent;
+        color: hsl(0, 0%, 96%);
+    }
+}
 
 
 // OVERWRITTING BROWSER STYLES

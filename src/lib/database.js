@@ -1,10 +1,10 @@
-import Store from 'electron-store';
+import setting from './setting';
 import Datastore from 'nedb';
 import path from 'path';
 
 export default class Database {
     constructor(collection) {
-        this.store = new Store();
+        this.store = setting;
         const dbPath = path.join(this.store.path, '..', 'data', `dbox${collection}.dat`);
         this.db = new Datastore({ filename: dbPath, autoload: true });
     }

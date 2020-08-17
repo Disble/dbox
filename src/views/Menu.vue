@@ -282,18 +282,5 @@ export default {
         // padding-top: 10px;
         margin-right: 23px;
     }
-    .button.is-transparent {
-        background: transparent;
-        border: 0;
-        color: hsl(0, 0%, 71%);
-        &:hover {
-            background: transparent;
-            color: hsl(0, 0%, 86%);
-        }
-        &:active {
-            background: transparent;
-            color: hsl(0, 0%, 96%);
-        }
-    }
 }
 </style>

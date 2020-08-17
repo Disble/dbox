@@ -15,7 +15,8 @@ export default new Vuex.Store({
             path: 'home'
         },
         boxes: [],
-        box: {}
+        box: {},
+        settings: {}
     },
 
     mutations: {
@@ -45,6 +46,10 @@ export default new Vuex.Store({
 
         setBox(state, box) {
             state.box = box;
+        },
+
+        setSetting(state, setting) {
+            state.settings = setting;
         }
     },
 
@@ -156,6 +161,32 @@ export default new Vuex.Store({
             context.commit('setBox', {});
             return numReplaced;
         },
+
+        async getSetting(context, payload) {
+            let setting = await ipcRenderer.invoke(
+                '/settings',
+                { method: 'get', params: { key: payload.key, value: payload.value } }
+            );
+            context.commit('setSetting', setting);
+            return setting;
+        },
+
+        async setSetting(context, payload) {
+            let setting = await ipcRenderer.invoke(
+                '/settings',
+                { method: 'set', params: { key: payload.key, value: payload.value } }
+            );
+            context.commit('setSetting', setting);
+            return setting;
+        },
+
+        async hasSetting(_context, payload) {
+            let hasSetting = await ipcRenderer.invoke(
+                '/settings',
+                { method: 'set', params: { key: payload.key } }
+            );
+            return hasSetting;
+        }
     },
     modules: {}
 });
