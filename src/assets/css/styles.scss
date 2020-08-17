@@ -159,6 +159,9 @@ a.dropdown-item:hover, .dropdown .dropdown-menu .has-link a:hover, button.dropdo
 .dialog .modal-card .modal-card-foot {
     border-top-color: $grey-dark;
 }
+
+// EXTEND BUEFY
+
 .button.is-transparent {
     background: transparent;
     border: 0;
@@ -171,6 +174,16 @@ a.dropdown-item:hover, .dropdown .dropdown-menu .has-link a:hover, button.dropdo
         background: transparent;
         color: hsl(0, 0%, 96%);
     }
+}
+
+.dbox-card-semitransparent {
+    // background: rgb(185, 170, 201);
+    background: linear-gradient(
+        180deg,
+        rgba(185, 170, 201, 0.1) 0%,
+        rgba(0, 212, 255, 0) 100%
+    );
+    border-radius: 5px;
 }
 
 

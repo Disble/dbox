@@ -64,7 +64,10 @@
       </button>
     </div>
     <section class="section">
-      <div class="is-flex buttons">
+      <div
+        v-if="appsBox.length > 0"
+        class="is-flex buttons"
+      >
         <router-link
           v-for="app in appsBox"
           :key="app._id"
@@ -76,6 +79,23 @@
             :style="{ backgroundImage: `url('${app.tile}')` }"
           />
         </router-link>
+      </div>
+      <div
+        v-else
+        class="section has-text-centered dbox-card-semitransparent mt-3"
+      >
+        <h2 class="is-size-6 has-text-weight-bold has-text-grey-light">
+          ¡Vamos a agregar algunas apps!
+        </h2>
+        <p class="has-text-grey-light mt-4">
+          Esta sección esta vacia porque aún no has agregado alguna app.
+        </p>
+        <button
+          class="button is-white is-outlined mt-4"
+          @click="addApp"
+        >
+          <span>Agrega una app o link</span>
+        </button>
       </div>
     </section>
   </div>

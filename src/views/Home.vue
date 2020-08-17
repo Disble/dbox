@@ -80,11 +80,11 @@
         RECIENTEMENTE LANZADA POR MÍ
       </h1>
       <div
-        v-if="apps.length > 0"
+        v-if="appsLatelyLaunched.length > 0"
         class="is-flex buttons"
       >
         <router-link
-          v-for="app in apps"
+          v-for="app in appsLatelyLaunched"
           :key="app._id"
           :to="`/detail/${app._id}`"
           class="mt-4"
@@ -169,7 +169,15 @@ export default {
         appsRecentAdded() {
             return this.apps
                 .slice()
-                .sort((a, b) => b.create_date - a.create_date);
+                .sort((a, b) => b.createDate - a.createDate);
+        },
+
+        appsLatelyLaunched() {
+            const res = this.apps
+                .filter(app => app.numLaunch > 0)
+                .sort((a, b) => b.lastLaunchDate - a.lastLaunchDate);
+            console.log('appsLatelyLaunched()', res);
+            return res;
         }
     },
 
@@ -269,15 +277,6 @@ export default {
 
         /* Color/tint overlay + Opacity */
         background: rgba(255, 255, 255, 0.3);
-    }
-    .dbox-card-semitransparent {
-        background: rgb(185, 170, 201);
-        background: linear-gradient(
-            180deg,
-            rgba(185, 170, 201, 0.1) 0%,
-            rgba(0, 212, 255, 0) 100%
-        );
-        border-radius: 5px;
     }
     .dbox-icons-banner {
         padding: 10px 20%;

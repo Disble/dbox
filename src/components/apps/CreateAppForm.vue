@@ -344,7 +344,6 @@ export default {
             tile: {},
             icon: {},
             background: {},
-            file: {},
             errorPath: '',
             tileURL: false,
             iconURL: false,
@@ -352,14 +351,35 @@ export default {
             filteredTags: [],
             app: {
                 title: '',
-                create_date: null,
+                sortingTitle: '',
+                description: '',
                 rating: 0,
-                tags: [],
+                /**
+                 * Open cuando se abre los detalles de la app
+                 */
+                numOpen: 0,
+                numLaunch: 0,
+                createDate: null,
+                modifiedDate: null,
+                firstLaunchDate: null,
+                lastLaunchDate: null,
+                defaultView: 'grid',
+                timeLaunched: 0,
                 visiblity: true,
+                state: 'ok',
                 tile: '',
                 background: '',
                 icon: '',
-                path: ''
+                path: '',
+                customLaunch: false,
+                parametersLaunch: [
+                    {
+                        file: '',
+                        arguments: '',
+                        label: '',
+                        defaultExecutable: false
+                    }
+                ]
             }
         };
     },
@@ -393,22 +413,6 @@ export default {
 
     methods: {
         ...mapActions(['createApp', 'updateBox']),
-
-        async getPath() {
-            let paths = await ipcRenderer.invoke('/tools/dialog', {
-                options: {
-                    title: 'Seleccionar',
-                    properties: ['openFile'],
-                    filters: [
-                        {
-                            name: 'Images',
-                            extensions: ['jpg', 'jpeg', 'png', 'gif']
-                        }
-                    ]
-                }
-            });
-            console.log('paths', paths[0]);
-        },
 
         getFilteredTags(text) {
             const filteredBoxes = this.boxes.filter(box => {
@@ -444,13 +448,14 @@ export default {
         },
 
         async submit() {
-            this.app.create_date = new Date();
             if (this.app.path.length === 0) {
                 this.errorPath = 'El campo Dirección es obligatorio.';
                 return;
             } else {
                 this.errorPath = '';
             }
+            this.app.createDate = new Date();
+            this.app.sortingTitle = this.app.title;
 
             const appCreated = await this.createApp({ app: this.app });
             const boxesFiltered = [];
@@ -463,7 +468,7 @@ export default {
             }
             for (const box of boxesFiltered) {
                 box.apps.push(appCreated._id);
-                await this.updateBox({ boxId: box._id, box: box });
+                await this.updateBox({ boxId: box._id, box });
             }
 
             this.$emit('close', { submited: true });

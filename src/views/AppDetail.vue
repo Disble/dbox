@@ -14,7 +14,7 @@
 
       <button
         class="button is-black mt-4 ml-4"
-        @click="updateApp"
+        @click="updateAppDetail"
       >
         <b-icon
           icon="sliders-h"
@@ -24,7 +24,7 @@
 
       <button
         class="button is-black mt-4 ml-4"
-        @click="removeApp"
+        @click="removeAppDetail"
       >
         <b-icon
           icon="trash-alt"
@@ -69,20 +69,20 @@ export default {
             'getAppById',
             'getApps',
             'deleteApp',
-            'updateDboxBackground'
+            'updateDboxBackground',
+            'updateApp'
         ]),
 
-        loadApp(id) {
-            if (!this.app || !this.app.id || this.app.id !== id) {
-                this.getAppById({ id }).then(() => {
-                    this.updateDboxBackground({
-                        dboxBackground: {
-                            backgroundUrl: this.app.background,
-                            path: 'detail'
-                        }
-                    });
-                });
-            }
+        async loadApp(id) {
+            await this.getAppById({ id });
+            this.updateDboxBackground({
+                dboxBackground: {
+                    backgroundUrl: this.app.background,
+                    path: 'detail'
+                }
+            });
+            this.app.numOpen++;
+            await this.updateApp({ appId: this.app._id, app: this.app });
         },
 
         async openApp() {
@@ -91,9 +91,15 @@ export default {
                 type: 'is-black'
             });
             await shell.openExternal(this.app.path);
+            this.app.numLaunch++;
+            if (this.app.firstLaunchDate === null) {
+                this.app.firstLaunchDate = new Date();
+            }
+            this.app.lastLaunchDate = new Date();
+            this.updateApp({ appId: this.app._id, app: this.app });
         },
 
-        updateApp() {
+        updateAppDetail() {
             this.$buefy.modal.open({
                 parent: this,
                 component: UpdateAppForm,
@@ -115,7 +121,7 @@ export default {
             });
         },
 
-        removeApp() {
+        removeAppDetail() {
             this.$buefy.dialog.confirm({
                 title: `Borrando "${this.app.title}"`,
                 message: `Estas apunto de borrar "${this.app.title}". </ br> ¿Estás seguro?`,

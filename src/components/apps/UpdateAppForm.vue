@@ -346,22 +346,10 @@ export default {
             tile: {},
             icon: {},
             background: {},
-            file: {},
             errorPath: '',
             tileURL: true,
             iconURL: true,
             backgroundURL: true,
-            tags: [
-                {
-                    name: 'Productividad'
-                },
-                {
-                    name: 'Entretenimiento'
-                },
-                {
-                    name: 'Referencias'
-                }
-            ],
             filteredTags: []
         };
     },
@@ -447,13 +435,13 @@ export default {
         },
 
         submit() {
-            this.app.create_date = new Date();
             if (this.app.path.length === 0) {
                 this.errorPath = 'El campo Dirección es obligatorio.';
                 return;
             } else {
                 this.errorPath = '';
             }
+            this.app.modifiedDate = new Date();
 
             this.updateApp({ appId: this.app._id, app: this.app }).then(() => {
                 // Retorna el objeto creado en la base de datos
