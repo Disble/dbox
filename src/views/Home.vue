@@ -113,6 +113,15 @@
         </button>
       </div>
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
+        ESTADISTICAS
+      </h1>
+      <div
+        class="mt-4"
+        style="height: 100px; width: 100px;"
+      >
+      </div>
+      <charts-home />
+      <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
         RECIENTEMENTE AÑADIDAS
       </h1>
       <ul
@@ -161,8 +170,12 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import CreateAppForm from '@/components/apps/CreateAppForm.vue';
+import ChartsHome from '@/components/apps/ChartsHome.vue';
 
 export default {
+    components: {
+        ChartsHome
+    },
     computed: {
         ...mapState(['apps', 'settings']),
 
@@ -173,11 +186,9 @@ export default {
         },
 
         appsLatelyLaunched() {
-            const res = this.apps
+            return this.apps
                 .filter(app => app.numLaunch > 0)
                 .sort((a, b) => b.lastLaunchDate - a.lastLaunchDate);
-            console.log('appsLatelyLaunched()', res);
-            return res;
         }
     },
 
