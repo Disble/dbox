@@ -122,17 +122,23 @@
               +33 apps añadidas (179 total)
             </h2>
             <div class="mt-3">
-              <charts-home style="width: 100%;" />
+              <charts-bars
+                style="width: 100%;"
+                :data-bars="barsOne"
+              />
             </div>
           </div>
         </div>
         <div class="column is-one-third">
           <div class="dbox-card-semitransparent px-4 py-4">
             <h2 class="is-size-6 has-text-weight-bold has-text-centered has-text-success">
-              +0 logros (52 total)
+              +0 cajas ejecutadas (52 total)
             </h2>
             <div class="mt-3">
-              <charts-home style="width: 100%;" />
+              <charts-bars
+                style="width: 100%;"
+                :data-bars="barsTwo"
+              />
             </div>
           </div>
         </div>
@@ -142,7 +148,10 @@
               +14 horas ejecutadas (102h total)
             </h2>
             <div class="mt-3">
-              <charts-home style="width: 100%;" />
+              <charts-bars
+                style="width: 100%;"
+                :data-bars="barsThree"
+              />
             </div>
           </div>
         </div>
@@ -196,11 +205,102 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import CreateAppForm from '@/components/apps/CreateAppForm.vue';
-import ChartsHome from '@/components/apps/ChartsHome.vue';
+import ChartsBars from '@/components/apps/ChartsBars.vue';
 
 export default {
     components: {
-        ChartsHome
+        ChartsBars
+    },
+    data() {
+        return {
+            barsOne: {
+                data: ctx => {
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 450);
+
+                    // Se pueden agregar más addColorStop para tener más colores.
+                    gradient.addColorStop(0, 'hsla(217, 71%, 53%, 1)');
+                    gradient.addColorStop(0.4, 'hsla(217, 71%, 53%, 0.1)');
+                    return {
+                        labels: [
+                            'Mercury',
+                            'Venus',
+                            'Earth',
+                            'Mars',
+                            'Jupiter',
+                            'Saturn',
+                            'Uranus',
+                            'Neptune'
+                        ],
+                        datasets: [
+                            {
+                                label: 'Number of Moons',
+                                data: [6, 50, 10, 2, 67, 62, 27, 14],
+                                backgroundColor: gradient,
+                                borderWidth: 0
+                            }
+                        ]
+                    };
+                }
+            },
+            barsTwo: {
+                data: ctx => {
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 450);
+
+                    // Se pueden agregar más addColorStop para tener más colores.
+                    gradient.addColorStop(0, 'hsla(141, 53%, 53%, 1)');
+                    gradient.addColorStop(0.4, 'hsla(141, 53%, 53%, 0.1)');
+                    return {
+                        labels: [
+                            'Mercury',
+                            'Venus',
+                            'Earth',
+                            'Mars',
+                            'Jupiter',
+                            'Saturn',
+                            'Uranus',
+                            'Neptune'
+                        ],
+                        datasets: [
+                            {
+                                label: 'Number of Moons',
+                                data: [0, 0, 1, 2, 67, 62, 27, 14],
+                                backgroundColor: gradient,
+                                borderWidth: 0
+                            }
+                        ]
+                    };
+                }
+            },
+            barsThree: {
+                data: ctx => {
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 450);
+
+                    // Se pueden agregar más addColorStop para tener más colores.
+                    gradient.addColorStop(0, 'hsla(48, 100%, 67%, 1)');
+                    gradient.addColorStop(0.4, 'hsla(48, 100%, 67%, 0.1)');
+                    return {
+                        labels: [
+                            'Mercury',
+                            'Venus',
+                            'Earth',
+                            'Mars',
+                            'Jupiter',
+                            'Saturn',
+                            'Uranus',
+                            'Neptune'
+                        ],
+                        datasets: [
+                            {
+                                label: 'Number of Moons',
+                                data: [5, 45, 1, 12, 47, 32, 27, 14],
+                                backgroundColor: gradient,
+                                borderWidth: 0
+                            }
+                        ]
+                    };
+                }
+            }
+        };
     },
     computed: {
         ...mapState(['apps', 'settings']),

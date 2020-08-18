@@ -1,12 +1,10 @@
 <template>
-  <canvas
-    id="canvas-chart"
-    ref="canvas"
-  />
+  <canvas ref="canvas" />
 </template>
 
 <script>
 import Chart from 'chart.js';
+import '@/lib/charjs-bars-rounded';
 
 export default {
     props: {
@@ -16,21 +14,19 @@ export default {
         }
     },
     mounted() {
-        this.createChart('canvas-chart', this.dataChart);
+        this.createChart(this.dataChart);
     },
     methods: {
-        createChart(chartId, chartData) {
-            // const ctx = document.getElementById(chartId);
+        createChart(chartData) {
             const canvas = this.$refs.canvas;
-            var ctx = canvas.getContext('2d');
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(250,174,50,1)');
-            gradient.addColorStop(1, 'rgba(250,174,50,0)');
+            const ctx = canvas.getContext('2d');
+            const dataChart = chartData.data(ctx);
+            chartData.options.scales.yAxes[0].ticks.max =
+                Math.max(...dataChart.datasets[0].data) + 15;
 
-            console.log('context', ctx);
             new Chart(canvas, {
                 type: chartData.type,
-                data: chartData.data,
+                data: dataChart,
                 options: chartData.options
             });
         }
