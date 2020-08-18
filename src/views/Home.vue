@@ -113,14 +113,40 @@
         </button>
       </div>
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
-        ESTADISTICAS
+        RESUMEN DE ESTA SEMANA
       </h1>
-      <div
-        class="mt-4"
-        style="height: 100px; width: 100px;"
-      >
+      <div class="columns mt-3">
+        <div class="column is-one-third">
+          <div class="dbox-card-semitransparent px-4 py-4">
+            <h2 class="is-size-6 has-text-weight-bold has-text-centered has-text-info">
+              +33 apps añadidas (179 total)
+            </h2>
+            <div class="mt-3">
+              <charts-home style="width: 100%;" />
+            </div>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="dbox-card-semitransparent px-4 py-4">
+            <h2 class="is-size-6 has-text-weight-bold has-text-centered has-text-success">
+              +0 logros (52 total)
+            </h2>
+            <div class="mt-3">
+              <charts-home style="width: 100%;" />
+            </div>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="dbox-card-semitransparent px-4 py-4">
+            <h2 class="is-size-6 has-text-weight-bold has-text-centered has-text-warning">
+              +14 horas ejecutadas (102h total)
+            </h2>
+            <div class="mt-3">
+              <charts-home style="width: 100%;" />
+            </div>
+          </div>
+        </div>
       </div>
-      <charts-home />
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
         RECIENTEMENTE AÑADIDAS
       </h1>

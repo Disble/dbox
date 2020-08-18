@@ -1,113 +1,104 @@
+<template>
+  <charts :data-chart="dataChart" />
+</template>
+
 <script>
-import { Bar } from 'vue-chartjs';
+import Charts from '@/components/Charts.vue';
+
+const planetChartData = {
+    type: 'bar',
+    data: {
+        labels: [
+            'Mercury',
+            'Venus',
+            'Earth',
+            'Mars',
+            'Jupiter',
+            'Saturn',
+            'Uranus',
+            'Neptune'
+        ],
+        datasets: [
+            {
+                // one line graph
+                label: 'Number of Moons',
+                data: [0, 0, 1, 2, 67, 62, 27, 14],
+                backgroundColor: [
+                    'rgba(140, 103, 239, 1)',
+                    'rgba(140, 103, 239, 1)',
+                    'rgba(140, 103, 239, 1)',
+                    'rgba(140, 103, 239, 1)',
+                    'rgba(140, 103, 239, 1)',
+                    'rgba(140, 103, 239, 1)',
+                    'rgba(140, 103, 239, 1)'
+                ],
+                borderWidth: 0
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        legend: {
+            display: false
+        },
+        title: {
+            display: false,
+            text: 'Chart.js Line Chart'
+        },
+        tooltips: {
+            mode: 'label',
+            display: false
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [
+                {
+                    display: true,
+                    gridLines: {
+                        display: false
+                    },
+                    scaleLabel: {
+                        display: false,
+                        fontColor: '#DDDDDD',
+                        labelString: 'Month'
+                    },
+                    ticks: { fontColor: '#DDDDDD' }
+                }
+            ],
+            yAxes: [
+                {
+                    display: false,
+                    gridLines: {
+                        display: false
+                    },
+                    scaleLabel: {
+                        display: false,
+                        fontColor: '#DDDDDD',
+                        labelString: 'Value'
+                    },
+                    ticks: {
+                        fontColor: '#DDDDDD',
+                        beginAtZero: true
+                    }
+                }
+            ]
+        }
+    }
+};
 
 export default {
-    extends: Bar,
-    props: {
-        labels: {
-            type: Array,
-            default: () => ['A', 'B', 'C']
-        },
-        datalabel: {
-            type: String,
-            default: 'Downloads per Week'
-        },
-        chartdata: {
-            type: Array,
-            default: () => [100, 40, 106]
-        },
-        options: {
-            type: Object,
-            default: () => {
-                return {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    title: {
-                        display: false,
-                        text: 'Chart.js Line Chart'
-                    },
-                    tooltips: {
-                        mode: 'label',
-                        display: false
-                    },
-                    hover: {
-                        mode: 'nearest',
-                        intersect: true
-                    },
-                    scales: {
-                        xAxes: [
-                            {
-                                display: true,
-                                gridLines: {
-                                    display: false
-                                },
-                                scaleLabel: {
-                                    display: false,
-                                    fontColor: '#DDDDDD',
-                                    labelString: 'Month'
-                                },
-                                ticks: { fontColor: '#DDDDDD' }
-                            }
-                        ],
-                        yAxes: [
-                            {
-                                display: true,
-                                gridLines: {
-                                    display: false
-                                },
-                                scaleLabel: {
-                                    display: false,
-                                    fontColor: '#DDDDDD',
-                                    labelString: 'Value'
-                                },
-                                ticks: {
-                                    fontColor: '#DDDDDD',
-                                    beginAtZero: true
-                                }
-                            }
-                        ]
-                    }
-                };
-            }
-        }
+    components: {
+        Charts
     },
+
     data() {
         return {
-            gradient: null
+            dataChart: planetChartData
         };
-    },
-    mounted() {
-        this.gradient = this.$refs.canvas
-            .getContext('2d')
-            .createLinearGradient(0, 0, 0, 450);
-
-        this.gradient.addColorStop(0, 'rgba(140, 103, 239, 0.5)');
-        this.gradient.addColorStop(0.5, 'rgba(140, 103, 239, 0.25)');
-        this.gradient.addColorStop(1, 'rgba(140, 103, 239, 0)');
-
-        this.renderChart(
-            {
-                labels: this.labels,
-                datasets: [
-                    {
-                        label: this.datalabel,
-                        borderColor: '#8c67ef',
-                        pointBackgroundColor: 'white',
-                        borderWidth: 1,
-                        pointBorderColor: 'white',
-                        backgroundColor: this.gradient,
-                        data: this.chartdata
-                    }
-                ]
-            },
-            this.options
-        );
     }
 };
 </script>
-
-<style>
-</style>
