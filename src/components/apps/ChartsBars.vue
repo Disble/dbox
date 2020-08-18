@@ -64,7 +64,7 @@ export default {
                     },
                     tooltips: {
                         mode: 'label',
-                        display: false
+                        enabled: false
                     },
                     hover: {
                         animationDuration: 0

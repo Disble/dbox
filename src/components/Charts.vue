@@ -22,7 +22,7 @@ export default {
             const ctx = canvas.getContext('2d');
             const dataChart = chartData.data(ctx);
             chartData.options.scales.yAxes[0].ticks.max =
-                Math.max(...dataChart.datasets[0].data) + 15;
+                Math.max(...dataChart.datasets[0].data) + 18;
 
             new Chart(canvas, {
                 type: chartData.type,
