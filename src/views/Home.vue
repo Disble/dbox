@@ -77,7 +77,7 @@
         </div>
       </b-notification>
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light">
-        RECIENTEMENTE LANZADA POR MÍ
+        RECIENTEMENTE EJECUTADA POR MÍ
       </h1>
       <div
         v-if="appsLatelyLaunched.length > 0"
@@ -103,7 +103,7 @@
           ¡Vamos a agregar algunas apps!
         </h2>
         <p class="has-text-grey-light mt-4">
-          Esta sección esta vacia porque aún no has lanzado alguna app.
+          Esta sección esta vacia porque aún no has ejecutado alguna app.
         </p>
         <button
           class="button is-white is-outlined mt-4"
@@ -113,18 +113,18 @@
         </button>
       </div>
       <h1 class="has-text-weight-bold is-size-7 has-text-grey-light mt-6">
-        RESUMEN DE ESTA SEMANA
+        RESUMEN DE ACTIVIDAD
       </h1>
       <div class="columns mt-3">
         <div class="column is-one-third">
           <div class="dbox-card-semitransparent px-4 py-4">
             <h2 class="is-size-6 has-text-weight-bold has-text-centered has-text-info">
-              +33 apps añadidas (179 total)
+              5 apps más ejecutadas ({{ apps.length }} total)
             </h2>
             <div class="mt-3">
               <charts-bars
                 style="width: 100%;"
-                :data-bars="barsOne"
+                :data-bars="appsTop5Launched"
               />
             </div>
           </div>
@@ -132,7 +132,7 @@
         <div class="column is-one-third">
           <div class="dbox-card-semitransparent px-4 py-4">
             <h2 class="is-size-6 has-text-weight-bold has-text-centered has-text-success">
-              +0 cajas ejecutadas (52 total)
+              5 cajas más ejecutadas ({{ boxes.length }} total)
             </h2>
             <div class="mt-3">
               <charts-bars
@@ -145,12 +145,12 @@
         <div class="column is-one-third">
           <div class="dbox-card-semitransparent px-4 py-4">
             <h2 class="is-size-6 has-text-weight-bold has-text-centered has-text-warning">
-              +14 horas ejecutadas (102h total)
+              5 apps más visitadas (15 total)
             </h2>
             <div class="mt-3">
               <charts-bars
                 style="width: 100%;"
-                :data-bars="barsThree"
+                :data-bars="appsTop5Visited"
               />
             </div>
           </div>
@@ -213,35 +213,6 @@ export default {
     },
     data() {
         return {
-            barsOne: {
-                data: ctx => {
-                    const gradient = ctx.createLinearGradient(0, 0, 0, 450);
-
-                    // Se pueden agregar más addColorStop para tener más colores.
-                    gradient.addColorStop(0, 'hsla(217, 71%, 53%, 1)');
-                    gradient.addColorStop(0.4, 'hsla(217, 71%, 53%, 0.1)');
-                    return {
-                        labels: [
-                            'Mercury',
-                            'Venus',
-                            'Earth',
-                            'Mars',
-                            'Jupiter',
-                            'Saturn',
-                            'Uranus',
-                            'Neptune'
-                        ],
-                        datasets: [
-                            {
-                                label: 'Number of Moons',
-                                data: [6, 50, 10, 2, 67, 62, 27, 14],
-                                backgroundColor: gradient,
-                                borderWidth: 0
-                            }
-                        ]
-                    };
-                }
-            },
             barsTwo: {
                 data: ctx => {
                     const gradient = ctx.createLinearGradient(0, 0, 0, 450);
@@ -251,9 +222,6 @@ export default {
                     gradient.addColorStop(0.4, 'hsla(141, 53%, 53%, 0.1)');
                     return {
                         labels: [
-                            'Mercury',
-                            'Venus',
-                            'Earth',
                             'Mars',
                             'Jupiter',
                             'Saturn',
@@ -263,36 +231,7 @@ export default {
                         datasets: [
                             {
                                 label: 'Number of Moons',
-                                data: [0, 0, 1, 2, 67, 62, 27, 14],
-                                backgroundColor: gradient,
-                                borderWidth: 0
-                            }
-                        ]
-                    };
-                }
-            },
-            barsThree: {
-                data: ctx => {
-                    const gradient = ctx.createLinearGradient(0, 0, 0, 450);
-
-                    // Se pueden agregar más addColorStop para tener más colores.
-                    gradient.addColorStop(0, 'hsla(48, 100%, 67%, 1)');
-                    gradient.addColorStop(0.4, 'hsla(48, 100%, 67%, 0.1)');
-                    return {
-                        labels: [
-                            'Mercury',
-                            'Venus',
-                            'Earth',
-                            'Mars',
-                            'Jupiter',
-                            'Saturn',
-                            'Uranus',
-                            'Neptune'
-                        ],
-                        datasets: [
-                            {
-                                label: 'Number of Moons',
-                                data: [5, 45, 1, 12, 47, 32, 27, 14],
+                                data: [20, 67, 62, 27, 14],
                                 backgroundColor: gradient,
                                 borderWidth: 0
                             }
@@ -303,7 +242,7 @@ export default {
         };
     },
     computed: {
-        ...mapState(['apps', 'settings']),
+        ...mapState(['apps', 'settings', 'boxes']),
 
         appsRecentAdded() {
             return this.apps
@@ -315,6 +254,74 @@ export default {
             return this.apps
                 .filter(app => app.numLaunch > 0)
                 .sort((a, b) => b.lastLaunchDate - a.lastLaunchDate);
+        },
+
+        appsTop5Launched() {
+            const top5 = this.apps
+                .filter(app => app.numLaunch > 0)
+                .sort((a, b) => b.numLaunch - a.numLaunch)
+                .slice(0, 4);
+            console.log('top 5', top5);
+            const labelsApps = [];
+            const dataApps = [];
+            for (const app of top5) {
+                labelsApps.push(app.title);
+                dataApps.push(app.numLaunch);
+            }
+            if (labelsApps.length === 0) return;
+            return {
+                data: ctx => {
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 450);
+                    gradient.addColorStop(0, 'hsla(217, 71%, 53%, 1)');
+                    gradient.addColorStop(0.4, 'hsla(217, 71%, 53%, 0.1)');
+
+                    return {
+                        labels: labelsApps,
+                        datasets: [
+                            {
+                                label: 'Veces ejecutadas',
+                                data: dataApps,
+                                backgroundColor: gradient,
+                                borderWidth: 0
+                            }
+                        ]
+                    };
+                }
+            };
+        },
+
+        appsTop5Visited() {
+            const top5 = this.apps
+                .filter(app => app.numOpen > 0)
+                .sort((a, b) => b.numOpen - a.numOpen)
+                .slice(0, 4);
+            console.log('top 5', top5);
+            const labelsApps = [];
+            const dataApps = [];
+            for (const app of top5) {
+                labelsApps.push(app.title);
+                dataApps.push(app.numOpen);
+            }
+            if (labelsApps.length === 0) return;
+            return {
+                data: ctx => {
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 450);
+                    gradient.addColorStop(0, 'hsla(48, 100%, 67%, 1)');
+                    gradient.addColorStop(0.4, 'hsla(48, 100%, 67%, 0.1)');
+
+                    return {
+                        labels: labelsApps,
+                        datasets: [
+                            {
+                                label: 'Veces visitadas',
+                                data: dataApps,
+                                backgroundColor: gradient,
+                                borderWidth: 0
+                            }
+                        ]
+                    };
+                }
+            };
         }
     },
 

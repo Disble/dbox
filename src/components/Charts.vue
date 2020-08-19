@@ -13,6 +13,17 @@ export default {
             default: null
         }
     },
+    data() {
+        return {
+            chart: null
+        };
+    },
+    watch: {
+        dataChart() {
+            this.chart.destroy();
+            this.createChart(this.dataChart);
+        }
+    },
     mounted() {
         this.createChart(this.dataChart);
     },
@@ -20,13 +31,13 @@ export default {
         createChart(chartData) {
             const canvas = this.$refs.canvas;
             const ctx = canvas.getContext('2d');
-            const dataChart = chartData.data(ctx);
+            const dataset = chartData.data(ctx);
             chartData.options.scales.yAxes[0].ticks.max =
-                Math.max(...dataChart.datasets[0].data) + 18;
+                Math.max(...dataset.datasets[0].data) + 18;
 
-            new Chart(canvas, {
+            this.chart = new Chart(canvas, {
                 type: chartData.type,
-                data: dataChart,
+                data: dataset,
                 options: chartData.options
             });
         }

@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import Chart from 'chart.js';
 import Charts from '@/components/Charts.vue';
+import dataBarsDefault from '@/lib/charjs-bars-defaults';
 
 export default {
     components: {
@@ -20,23 +20,14 @@ export default {
                         const gradient = ctx.createLinearGradient(0, 0, 0, 450);
 
                         // Se pueden agregar más addColorStop para tener más colores.
-                        gradient.addColorStop(0, 'hsla(141, 53%, 53%, 1)');
-                        gradient.addColorStop(0.4, 'hsla(141, 53%, 53%, 0.1)');
+                        gradient.addColorStop(0, 'hsla(141, 0%, 40%, 1)');
+                        gradient.addColorStop(0.4, 'hsla(141, 0%, 40%, 0.1)');
                         return {
-                            labels: [
-                                'Mercury',
-                                'Venus',
-                                'Earth',
-                                'Mars',
-                                'Jupiter',
-                                'Saturn',
-                                'Uranus',
-                                'Neptune'
-                            ],
+                            labels: ['A', 'B', 'C', 'D', 'E'],
                             datasets: [
                                 {
-                                    label: 'Number of Moons',
-                                    data: [0, 0, 1, 2, 67, 62, 27, 14],
+                                    label: 'Defaults values',
+                                    data: [2, 2, 2, 2, 2],
                                     backgroundColor: gradient,
                                     borderWidth: 0
                                 }
@@ -50,92 +41,14 @@ export default {
 
     data() {
         return {
-            dataChart: {
-                type: 'bar',
-                data: this.dataBars.data,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    legend: {
-                        display: false
-                    },
-                    title: {
-                        display: false
-                    },
-                    tooltips: {
-                        mode: 'label',
-                        enabled: false
-                    },
-                    hover: {
-                        animationDuration: 0
-                    },
-                    animation: {
-                        duration: 1,
-                        onComplete: function() {
-                            const chartInstance = this.chart,
-                                ctx = chartInstance.ctx;
-
-                            ctx.font = Chart.helpers.fontString(
-                                11,
-                                'bold',
-                                Chart.defaults.global.defaultFontFamily
-                            );
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'bottom';
-                            ctx.fillStyle = '#ddd';
-
-                            this.data.datasets.forEach(function(dataset, i) {
-                                const meta = chartInstance.controller.getDatasetMeta(
-                                    i
-                                );
-                                meta.data.forEach(function(bar, index) {
-                                    const data = dataset.data[index];
-                                    ctx.fillText(
-                                        data,
-                                        bar._model.x,
-                                        bar._model.y - 5
-                                    );
-                                });
-                            });
-                        }
-                    },
-                    scales: {
-                        xAxes: [
-                            {
-                                display: true,
-                                gridLines: {
-                                    display: false
-                                },
-                                scaleLabel: {
-                                    display: false,
-                                    fontColor: '#DDDDDD',
-                                    labelString: 'Month'
-                                },
-                                ticks: { fontColor: '#DDDDDD' }
-                            }
-                        ],
-                        yAxes: [
-                            {
-                                display: false,
-                                gridLines: {
-                                    display: false
-                                },
-                                scaleLabel: {
-                                    display: false,
-                                    fontColor: '#DDDDDD',
-                                    labelString: 'Value'
-                                },
-                                ticks: {
-                                    display: false,
-                                    fontColor: '#DDDDDD',
-                                    beginAtZero: true
-                                }
-                            }
-                        ]
-                    }
-                }
-            }
+            dataChart: dataBarsDefault(this.dataBars)
         };
+    },
+
+    watch: {
+        dataBars() {
+            this.dataChart = dataBarsDefault(this.dataBars);
+        }
     }
 };
 </script>
