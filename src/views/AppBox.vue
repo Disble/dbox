@@ -130,14 +130,23 @@ export default {
     },
 
     methods: {
-        ...mapActions(['getBoxById', 'updateDboxBackground', 'getAppsById']),
+        ...mapActions([
+            'getBoxById',
+            'updateDboxBackground',
+            'getAppsById',
+            'updateBox',
+            'getBoxes'
+        ]),
 
         async loadBox(id) {
             await this.getBoxById({ id });
             await this.getAppsById({ appsId: this.box.apps });
+            this.box.numOpen++;
+            await this.updateBox({ boxId: this.box._id, box: this.box });
+            await this.getBoxes();
         },
 
-        openApps() {
+        async openApps() {
             this.$buefy.notification.open({
                 message: '¡Abriendo!',
                 type: 'is-black'
@@ -145,6 +154,13 @@ export default {
             for (const app of this.appsBox) {
                 shell.openExternal(app.path);
             }
+            this.box.numLaunch++;
+            if (this.box.firstLaunchDate === null) {
+                this.box.firstLaunchDate = new Date();
+            }
+            this.box.lastLaunchDate = new Date();
+            await this.updateBox({ boxId: this.box._id, box: this.box });
+            await this.getBoxes();
         },
 
         addApp() {

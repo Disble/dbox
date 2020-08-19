@@ -190,12 +190,15 @@ export default {
             const box = {
                 title: 'Nueva caja',
                 apps: [],
+                numOpen: 0,
+                numLaunch: 0,
                 createdDate: new Date(),
                 modifiedDate: null,
+                deletedDate: null, // tentativo porque puede que si se borren
+                firstLaunchDate: null,
                 lastLaunchDate: null,
-                deleteDate: null, // tentativo porque puede que si se borren
-                numLaunch: 0,
-                numOpen: 0,
+                timeLaunched: 0,
+                state: 'ok',
                 visible: true,
                 defaultSort: '', // tentativo
                 defaultView: 'grid', // si se ve en lista o con portadas
@@ -216,6 +219,7 @@ export default {
         async updateMenuItem(box) {
             box.isEditable = false;
             this.box.title = box.title;
+            this.box.modifiedDate = new Date();
             await this.updateBox({ boxId: box._id, box: this.box });
             await this.getBoxes();
         },
