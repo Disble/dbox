@@ -1,6 +1,15 @@
 # Change Log
 Todos los cambios importantes de dbox van a ser documentados en este archivo.
 
+## [0.4.0]
+### Novedades
+- Dicen que la primera si importa, es por eso que nos hemos enfocado en hacer esa primera impresión lo más amena posible.
+- Dicen que eres lo que mides, misma es la razón por la que empezamos a agregar algunas estadísticas básicas del uso de las apps que se agregan a dbox, todos los datos se guardan en local y solo registra el uso interno de dbox.
+
+### Corrección de errores
+- Solucionado: La caja Reciente no debería poderse eliminar, pero se podía eliminar, ya esta solucionado.
+- Solucionado: Las secciones RECIENTEMENTE LANZADA y RECIENTEMENTE AÑADIDAS no tenían un orden especifico; pero, no se preocupen ahora ya funcionan como debe de ser.
+
 ## [0.3.1]
 ### Corrección de errores
 - Solucionado: Sí, si había otro cuadrado detrás del ícono (cortesía de [AndyKingche](https://github.com/AndyKingche)) de dbox, no estamos locos. Por si no lo notaste antes, ahora podrás ver mucho mejor los detalles del ícono de dbox.
