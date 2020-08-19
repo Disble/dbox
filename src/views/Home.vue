@@ -234,7 +234,11 @@ export default {
             const labelsApps = [];
             const dataApps = [];
             for (const app of top5) {
-                labelsApps.push(app.title);
+                labelsApps.push(
+                    app.title.length > 15
+                        ? `${app.title.slice(0, 15).trim()}...`
+                        : app.title
+                );
                 dataApps.push(app.numLaunch);
             }
             if (labelsApps.length === 0) return;
@@ -267,7 +271,11 @@ export default {
             const labelsBoxes = [];
             const dataBoxes = [];
             for (const box of top5) {
-                labelsBoxes.push(box.title);
+                labelsBoxes.push(
+                    box.title.length > 15
+                        ? `${box.title.slice(0, 15).trim()}...`
+                        : box.title
+                );
                 dataBoxes.push(box.numLaunch);
             }
             if (labelsBoxes.length === 0) return;
@@ -300,7 +308,11 @@ export default {
             const labelsApps = [];
             const dataApps = [];
             for (const app of top5) {
-                labelsApps.push(app.title);
+                labelsApps.push(
+                    app.title.length > 15
+                        ? `${app.title.slice(0, 15).trim()}...`
+                        : app.title
+                );
                 dataApps.push(app.numOpen);
             }
             if (labelsApps.length === 0) return;
@@ -333,14 +345,14 @@ export default {
         },
 
         appsLaunched() {
-          return this.apps
+            return this.apps
                 .filter(app => app.numLaunch > 0)
                 .map(app => app.numLaunch)
                 .reduce((a, b) => a + b, 0);
         },
 
         boxesLaunched() {
-          return this.boxes
+            return this.boxes
                 .filter(box => box.numLaunch > 0)
                 .map(box => box.numLaunch)
                 .reduce((a, b) => a + b, 0);
