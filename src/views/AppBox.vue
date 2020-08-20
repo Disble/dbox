@@ -135,7 +135,9 @@ export default {
             'updateDboxBackground',
             'getAppsById',
             'updateBox',
-            'getBoxes'
+            'getBoxes',
+            'updateApp',
+            'getApps'
         ]),
 
         async loadBox(id) {
@@ -153,6 +155,13 @@ export default {
             });
             for (const app of this.appsBox) {
                 shell.openExternal(app.path);
+                app.numLaunch++;
+                if (app.firstLaunchDate === null) {
+                    app.firstLaunchDate = new Date();
+                }
+                app.lastLaunchDate = new Date();
+                await this.updateApp({ appId: app._id, app: app });
+                await this.getApps();
             }
             this.box.numLaunch++;
             if (this.box.firstLaunchDate === null) {
