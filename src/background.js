@@ -54,12 +54,11 @@ function createWindow() {
                 buttons: ['Reiniciar', 'Después'],
                 title: 'Actualización de dbox',
                 message: process.platform === 'win32' ? releaseNotes : releaseName,
-                detail: 'Una nueva versión ha sido descargada. Reinicie la aplicación para aplicar la actualización.'
+                detail: 'Tenemos buenas y malas noticias, la buena es que hay una nueva actualización de dbox, la mala es que tienes que reinciar dbox para actualizar.'
             };
 
-            dialog.showMessageBox(dialogOpts, (response) => {
-                if (response === 0) autoUpdater.quitAndInstall();
-            });
+            const response = dialog.showMessageBoxSync(dialogOpts);
+            if (response === 0) autoUpdater.quitAndInstall();
         });
 
         autoUpdater.on('error', message => {
