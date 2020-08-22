@@ -81,7 +81,7 @@
       </h1>
       <div
         v-if="appsLatelyLaunched.length > 0"
-        class="is-flex buttons"
+        class="is-flex dbox-launched-apps"
       >
         <router-link
           v-for="app in appsLatelyLaunched"
@@ -485,6 +485,11 @@ export default {
     }
     .dbox-banner-content {
         position: relative;
+    }
+    .dbox-launched-apps {
+        width: 100%;
+        overflow: auto;
+        padding: 1em 0;
     }
 }
 </style>
