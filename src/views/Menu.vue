@@ -41,7 +41,7 @@
         </p>
         <ul class="menu-list">
           <li
-            v-for="box in menu"
+            v-for="(box, i) in menu"
             :key="box._id"
             class="mb-1 dbox-row-menu is-flex align-items-center justify-content-space-between"
             @click="toggleActive(box)"
@@ -58,14 +58,16 @@
                 custom-class="dbox-icon-menu"
               />
               <span
-                v-if="!box.isEditable"
-                @dblclick="box.isEditable = true"
+                v-show="!box.isEditable"
+                @dblclick="activateEditableInput(box, 'inputBox' + i)"
               >{{ box.title }}</span>
               <b-input
-                v-else
+                v-show="box.isEditable"
+                :ref="'inputBox' + i"
                 v-model="box.title"
                 custom-class="dbox-input-editable has-text-white"
                 @blur="updateMenuItem(box)"
+                @keyup.enter.native="updateMenuItem(box)"
               />
             </router-link>
             <span
@@ -216,6 +218,10 @@ export default {
             await this.getBoxes();
             const boxCreatedMenu = this.createItemMenu(boxCreated, true);
             this.menu.push(boxCreatedMenu);
+            setTimeout(() => {
+                const boxInputId = `inputBox${this.menu.length - 1}`;
+                this.focusInputBox(boxInputId);
+            }, 0);
         },
 
         async updateMenuItem(box) {
@@ -257,6 +263,18 @@ export default {
                     await this.getBoxes();
                 }
             });
+        },
+
+        activateEditableInput(box, boxInputId) {
+            box.isEditable = true;
+            this.focusInputBox(boxInputId);
+        },
+
+        focusInputBox(boxInputId) {
+            const inputBox = this.$refs[boxInputId][0];
+            inputBox.focus();
+            const elInputBox = inputBox.$el.querySelector('input');
+            elInputBox.select();
         }
     }
 };
