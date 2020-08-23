@@ -22,7 +22,7 @@ export default class AppService {
     async getApp({ appId }) {
         console.log('getApp', appId);
         const app = await this.db.getOnce({ _id: appId });
-        return app || {};
+        return app || null;
     }
 
     async createApp({ app }) {

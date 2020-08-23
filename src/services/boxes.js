@@ -16,7 +16,13 @@ export default class BoxService {
     async getBox({ boxId }) {
         console.log('getBox', boxId);
         const box = await this.db.getOnce({ _id: boxId });
-        return box || {};
+        return box || null;
+    }
+
+    async getBoxByTitle({ boxTitle }) {
+        console.log('getBox', boxTitle);
+        const box = await this.db.getOnce({ title: boxTitle });
+        return box || null;
     }
 
     async createBox({ box }) {

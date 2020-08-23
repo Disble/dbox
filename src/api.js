@@ -7,75 +7,69 @@ const appService = new AppService();
 const boxService = new BoxService();
 const settingService = new SettingService();
 settingService.setFirstTime();
-// const word = {
-//     title: 'Word',
-//     tile: 'https://www.muycomputer.com/wp-content/uploads/2020/02/Microsoft-Word-560x600.jpg',
-//     background: '',
-//     icon: '',
-//     release_date: new Date(),
-//     rating: 0,
-//     create_date: new Date,
-//     tags: [],
-//     visiblity: true,
-//     path: path.normalize("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Word.lnk")
-// };
-// const powerpoint = {
-//     title: 'Power Point',
-//     tile: 'https://us.123rf.com/450wm/dennizn/dennizn1606/dennizn160600056/58006921-montreal-canad%C3%A1-23-de-mayo-2016-logotipo-de-microsoft-office-powerpoint-en-una-pantalla-de-tel%C3%A9fono-m%C3%B3vil-m.jpg?ver=6',
-//     background: '',
-//     icon: '',
-//     release_date: new Date(),
-//     rating: 0,
-//     create_date: new Date,
-//     tags: [],
-//     visiblity: true,
-//     path: path.normalize("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\PowerPoint.lnk")
-// };
-// // Valores de prueba
-// appService.createApp({ app: word });
-// appService.createApp({ app: powerpoint });
+const firstBoxes = async () => {
+    settingService.setDefaultBox();
+    const hasDefaultBox = settingService.getSetting('hasDefaultBox', false);
+    if (!hasDefaultBox) {
+        const offline = await boxService.getBoxByTitle({ boxTitle: 'Local' });
+        if (!offline) {
+            const boxOffline = {
+                title: 'Local',
+                apps: [],
+                numOpen: 0,
+                numLaunch: 0,
+                createdDate: new Date(),
+                modifiedDate: null,
+                deletedDate: null, // tentativo porque puede que si se borren
+                firstLaunchDate: null,
+                lastLaunchDate: null,
+                timeLaunched: 0,
+                state: 'ok',
+                visible: true,
+                defaultSort: '', // tentativo
+                defaultView: 'grid', // si se ve en lista o con portadas
+                customOptions: {
+                    // solo para grid
+                    title: false,
+                    rating: false,
+                    aditionalData: false,
+                    sizeText: 10
+                }
+            };
+            boxService.createBox({ box: boxOffline });
+        }
 
-
-// const offlineBox = {
-//     title: 'Local',
-//     apps: [],
-//     createdDate: new Date(),
-//     modifiedDate: null,
-//     lastLaunchDate: null,
-//     deleteDate: null,	    		// tentativo porque puede que si se borren
-//     numLaunch: 0,
-//     numOpen: 0,
-//     visible: true,
-//     defaultSort: '',				// tentativo
-//     defaultView: 'grid',			// si se ve en lista o con portadas
-//     customOptions: {				// solo para grid
-//         title: false,
-//         rating: false,
-//         aditionalData: false,
-//         sizeText: 10
-//     }
-// };
-// const onlineBox = {
-//     title: 'Online',
-//     apps: [],
-//     createdDate: new Date(),
-//     modifiedDate: null,
-//     lastLaunchDate: null,
-//     deleteDate: null,	    		// tentativo porque puede que si se borren
-//     numLaunch: 0,
-//     numOpen: 0,
-//     visible: true,
-//     defaultSort: '',				// tentativo
-//     defaultView: 'grid',			// si se ve en lista o con portadas
-//     customOptions: {				// solo para grid
-//         title: false,
-//         rating: false,
-//         aditionalData: false,
-//         sizeText: 10
-//     }
-// };
-// boxService.createBox({ box: offlineBox });
-// boxService.createBox({ box: onlineBox });
+        const online = await boxService.getBoxByTitle({ boxTitle: 'Online' });
+        if (!online) {
+            const boxOnline = online ? online : {
+                title: 'Online',
+                apps: [],
+                numOpen: 0,
+                numLaunch: 0,
+                createdDate: new Date(),
+                modifiedDate: null,
+                deletedDate: null, // tentativo porque puede que si se borren
+                firstLaunchDate: null,
+                lastLaunchDate: null,
+                timeLaunched: 0,
+                state: 'ok',
+                visible: true,
+                defaultSort: '', // tentativo
+                defaultView: 'grid', // si se ve en lista o con portadas
+                customOptions: {
+                    // solo para grid
+                    title: false,
+                    rating: false,
+                    aditionalData: false,
+                    sizeText: 10
+                }
+            };
+            boxService.createBox({ box: boxOnline });
+        }
+        settingService.setSetting('hasDefaultBox', true);
+    }
+};
+firstBoxes();
 
 
 // Functions asyncs for redered process
