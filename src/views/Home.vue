@@ -170,12 +170,10 @@
         >
           <li class="has-text-grey-lighter is-size-7 is-flex align-items-center acrylic__hover dbox-icon-app__row">
             <span>
-              <figure class="image is-16x16 mr-3">
-                <img
-                  class="is-rounded dbox-icon-app"
-                  :src="app.icon"
-                >
-              </figure>
+              <div
+                class="dbox-icon__head mr-3"
+                :style="{ backgroundImage: `url('${app.icon}')` }"
+              />
             </span>
             <span>{{ app.title }}</span>
           </li>
@@ -490,6 +488,15 @@ export default {
         width: 100%;
         overflow: auto;
         padding: 1em 0;
+    }
+    .dbox-icon__head {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border: 1px solid white;
     }
 }
 </style>
