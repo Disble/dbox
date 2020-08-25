@@ -51,6 +51,7 @@
               v-for="(box, i) in menu"
               :key="box._id"
               class="mb-1 dbox-row-menu is-flex align-items-center justify-content-space-between"
+              :class="{ 'border-active': box.isActive }"
               @click="toggleActive(box)"
             >
               <router-link
@@ -310,6 +311,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.section {
+    padding: 48px 24px 48px 0;
+}
 .section-menu-options {
     padding: 24px 16px 0;
 }
@@ -321,6 +325,18 @@ export default {
 }
 .dbox-box-icon:active {
     color: hsl(0, 0%, 78%);
+}
+.dbox-row-menu {
+    padding-left: 22px;
+    border-left-width: 2px;
+    border-left-style: solid;
+    border-left-color: transparent;
+}
+.dbox-row-menu.border-active {
+    border-left-color: hsl(0, 0%, 71%);
+}
+.menu-label {
+    padding-left: 24px;
 }
 .dbox-row-menu .dbox-item-menu-trash {
     display: none !important;
