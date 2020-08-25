@@ -112,7 +112,7 @@ ipcMain.handle('/api/box', (_event, args) => {
                 const { boxId } = params;
                 return await boxService.getBox({ boxId });
             }
-            return await boxService.getBoxes({ createdDate: 1 });
+            return await boxService.getBoxes({ order: 1 });
         },
         post: async () => {
             const { box } = params;

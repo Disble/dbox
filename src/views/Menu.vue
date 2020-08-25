@@ -40,48 +40,56 @@
           </span>
         </p>
         <ul class="menu-list">
-          <li
-            v-for="(box, i) in menu"
-            :key="box._id"
-            class="mb-1 dbox-row-menu is-flex align-items-center justify-content-space-between"
-            @click="toggleActive(box)"
+          <draggable
+            v-model="menu"
+            group="menu"
+            @start="drag=true"
+            @end="drag=false"
+            @change="updateOrderBox"
           >
-            <router-link
-              class="is-fullwidth-dbox is-flex align-items-center"
-              :class="{ 'is-active': box.isActive }"
-              :to="{ name: box.nameLink, params: { id: box._id, nameBox: box.title } }"
+            <li
+              v-for="(box, i) in menu"
+              :key="box._id"
+              class="mb-1 dbox-row-menu is-flex align-items-center justify-content-space-between"
+              @click="toggleActive(box)"
             >
-              <b-icon
-                pack="fas"
-                :icon="box.icon"
-                size="is-small"
-                custom-class="dbox-icon-menu"
-              />
+              <router-link
+                class="is-fullwidth-dbox is-flex align-items-center"
+                :class="{ 'is-active': box.isActive }"
+                :to="{ name: box.nameLink, params: { id: box._id, nameBox: box.title } }"
+              >
+                <b-icon
+                  pack="fas"
+                  :icon="box.icon"
+                  size="is-small"
+                  custom-class="dbox-icon-menu"
+                />
+                <span
+                  v-show="!box.isEditable"
+                  @dblclick="activateEditableInput(box, 'inputBox' + i)"
+                >{{ box.title }}</span>
+                <b-input
+                  v-show="box.isEditable"
+                  :ref="'inputBox' + i"
+                  v-model="box.title"
+                  custom-class="dbox-input-editable has-text-white"
+                  @blur="updateMenuItem(box)"
+                  @keyup.enter.native="updateMenuItem(box)"
+                />
+              </router-link>
               <span
-                v-show="!box.isEditable"
-                @dblclick="activateEditableInput(box, 'inputBox' + i)"
-              >{{ box.title }}</span>
-              <b-input
-                v-show="box.isEditable"
-                :ref="'inputBox' + i"
-                v-model="box.title"
-                custom-class="dbox-input-editable has-text-white"
-                @blur="updateMenuItem(box)"
-                @keyup.enter.native="updateMenuItem(box)"
-              />
-            </router-link>
-            <span
-              v-if="box.isEliminable"
-              class="is-inline-flex align-items-center dbox-item-menu-trash dbox-box-icon"
-              @click="deleteMenuItem(box)"
-            >
-              <b-icon
-                pack="fas"
-                icon="trash-alt"
-                size="is-small"
-              />
-            </span>
-          </li>
+                v-if="box.isEliminable"
+                class="is-inline-flex align-items-center dbox-item-menu-trash dbox-box-icon"
+                @click="deleteMenuItem(box)"
+              >
+                <b-icon
+                  pack="fas"
+                  icon="trash-alt"
+                  size="is-small"
+                />
+              </span>
+            </li>
+          </draggable>
         </ul>
       </aside>
     </section>
@@ -92,10 +100,16 @@
 import bcrypt from 'bcryptjs';
 import { mapState, mapActions } from 'vuex';
 import SearchApp from '@/components/SearchApp.vue';
+import draggable from 'vuedraggable';
 
 export default {
+    components: {
+        draggable
+    },
+
     data() {
         return {
+            drag: false,
             menu: [
                 {
                     apps: [],
@@ -114,6 +128,7 @@ export default {
                     title: 'Recientes',
                     numLaunch: 0,
                     numRun: 0,
+                    order: 0,
                     visible: true,
                     _id: bcrypt.hashSync('Recientes', 8),
                     link: '/',
@@ -205,6 +220,7 @@ export default {
                 state: 'ok',
                 visible: true,
                 defaultSort: '', // tentativo
+                order: this.menu.length + 1,
                 defaultView: 'grid', // si se ve en lista o con portadas
                 customOptions: {
                     // solo para grid
@@ -275,6 +291,20 @@ export default {
             inputBox.focus();
             const elInputBox = inputBox.$el.querySelector('input');
             elInputBox.select();
+        },
+
+        async updateOrderBox() {
+            for (const i in this.menu) {
+                const menuItem = this.menu[i];
+                const boxesFiltered = this.boxes.filter(
+                    box => box._id === menuItem._id
+                );
+                if (boxesFiltered.length === 0) continue;
+                const box = boxesFiltered[0];
+                box.order = parseInt(i) + 1;
+                await this.updateBox({ boxId: box._id, box });
+            }
+            await this.getBoxes();
         }
     }
 };
