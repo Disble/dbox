@@ -149,7 +149,6 @@ export default {
     created() {
         // console.log('this.$route from Menu', this.$route);
         this.getBoxes().then(boxes => {
-            console.log('getBoxes()', boxes);
             boxes.forEach(box => {
                 const menuBox = this.createItemMenu(box);
                 this.menu.push(menuBox);

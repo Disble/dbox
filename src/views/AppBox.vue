@@ -64,21 +64,27 @@
       </button>
     </div>
     <section class="section">
-      <div
-        v-if="appsBox.length > 0"
-        class="is-flex buttons"
-      >
-        <router-link
-          v-for="app in appsBox"
-          :key="app._id"
-          :to="`/detail/${app._id}`"
-          class="mt-4"
+      <div v-if="appsBox.length > 0">
+        <draggable
+          v-model="appsBoxList"
+          group="apps"
+          @start="drag=true"
+          @end="drag=false"
+          @change="updateOrderApp"
+          class="is-flex buttons"
         >
-          <div
-            class="dbox-app-card mr-5"
-            :style="{ backgroundImage: `url('${app.tile}')` }"
-          />
-        </router-link>
+          <router-link
+            v-for="app in appsBoxList"
+            :key="app._id"
+            :to="`/detail/${app._id}`"
+            class="mt-4"
+          >
+            <div
+              class="dbox-app-card mr-5"
+              :style="{ backgroundImage: `url('${app.tile}')` }"
+            />
+          </router-link>
+        </draggable>
       </div>
       <div
         v-else
@@ -105,10 +111,30 @@
 const { shell } = require('electron');
 import SearchApp from '@/components/SearchApp.vue';
 import { mapState, mapActions } from 'vuex';
+import draggable from 'vuedraggable';
 
 export default {
+    components: {
+        draggable
+    },
+
+    data() {
+        return {
+            drag: false
+        };
+    },
+
     computed: {
-        ...mapState(['box', 'appsBox'])
+        ...mapState(['box', 'appsBox']),
+
+        appsBoxList: {
+            get() {
+                return this.$store.state.appsBox;
+            },
+            set(value) {
+                this.$store.commit('setAppsBox', value);
+            }
+        }
     },
 
     watch: {
@@ -216,6 +242,14 @@ export default {
                 message: 'Próximamente',
                 type: 'is-black'
             });
+        },
+
+        async updateOrderApp() {
+            for (const i in this.appsBoxList) {
+                const app = this.appsBoxList[i];
+                app.order = parseInt(i) + 1;
+                await this.updateApp({ appId: app._id, app });
+            }
         }
     }
 };

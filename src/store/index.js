@@ -74,12 +74,13 @@ export default new Vuex.Store({
                 '/api/app',
                 {
                     method: 'get',
-                    params: { appsId: payload.appsId },
+                    params: { appsId: payload.appsId, sort: { order: 1 } },
                     options: {
                         getAppsById: true
                     }
                 }
             );
+            // console.log('store getAppsById()', appsBox);
             context.commit('setAppsBox', appsBox);
             return appsBox;
         },
@@ -119,7 +120,7 @@ export default new Vuex.Store({
 
         async getBoxes(context) {
             const boxes = await ipcRenderer.invoke('/api/box', { method: 'get' });
-            console.log('store getBoxes()', boxes);
+            // console.log('store getBoxes()', boxes);
             context.commit('setBoxes', boxes);
             return boxes;
         },

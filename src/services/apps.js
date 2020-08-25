@@ -13,9 +13,11 @@ export default class AppService {
         return apps || [];
     }
 
-    async getAppsById(appsId) {
-        console.log('getAppsById', appsId);
-        const apps = await this.db.getAll({ _id: { $in: appsId } });
+    async getAppsById(appsId, sort = null) {
+        console.log('getAppsById', appsId, sort);
+        const querys = [{ _id: { $in: appsId } }];
+        if (sort !== null) querys.push(sort);
+        const apps = await this.db.getAll(...querys);
         return apps || [];
     }
 

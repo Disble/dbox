@@ -78,8 +78,8 @@ ipcMain.handle('/api/app', (_event, args) => {
     const methods = {
         get: async () => {
             if (options !== undefined && options.getAppsById !== undefined) {
-                const { appsId } = params;
-                return await appService.getAppsById(appsId);
+                const { appsId, sort } = params;
+                return await appService.getAppsById(appsId, sort);
             }
             if (params !== undefined) {
                 const { appId } = params;
