@@ -17,6 +17,14 @@ export default class SettingService {
         }
     }
 
+    setDefaultBox() {
+        if (!this.setting.has('hasDefaultBox')) {
+            this.setting.set({
+                hasDefaultBox: false
+            });
+        }
+    }
+
     hasSetting(key) {
         return this.setting.has(key);
     }
