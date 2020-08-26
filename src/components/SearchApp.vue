@@ -8,6 +8,7 @@
         />
       </span>
       <b-input
+        ref="inputSearch"
         v-model="name"
         placeholder="Busca por cualquier app y..."
         :icon="selected !== null ? '' : 'search'"
@@ -96,6 +97,10 @@ export default {
         this.getApps();
     },
 
+    mounted() {
+        this.$refs.inputSearch.focus();
+    },
+
     methods: {
         ...mapActions(['getApps', 'updateBox']),
 
@@ -161,7 +166,7 @@ export default {
 .dbox-search {
     min-width: 40vw;
     border-radius: 8px;
-    border: 1px solid hsla(0, 0%, 100%, 0.2);
+    border: 1px solid hsla(0, 0%, 0%, 0.2);
 }
 ::v-deep {
     .width-inherit {
@@ -173,7 +178,7 @@ export default {
         padding-bottom: 10px;
         padding-right: 12px;
         border-radius: 8px 8px 0 0;
-        border-bottom: 1px solid hsla(0, 0%, 100%, 0.2);
+        border-bottom: 1px solid hsla(0, 0%, 0%, 0.2);
         //
         /* Parent background + Gaussian blur */
         backdrop-filter: blur(10px);
@@ -183,7 +188,7 @@ export default {
         background-blend-mode: exclusion;
 
         /* Color/tint overlay + Opacity */
-        background: rgba(255, 255, 255, 0);
+        background: transparent;
     }
     .dbox-search-input {
         border: 0;
@@ -196,24 +201,24 @@ export default {
         background-blend-mode: exclusion;
 
         /* Color/tint overlay + Opacity */
-        background: rgba(255, 255, 255, 0);
+        background: transparent;
     }
     ::placeholder {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: hsl(0, 0%, 71%);
+        color: hsl(0, 0%, 40%);
         opacity: 1; /* Firefox */
         font-weight: normal;
     }
     ::-webkit-scrollbar {
-        background-color: rgba(255, 255, 255, 0);
+        background-color: transparent;
     }
     ::-webkit-scrollbar-thumb {
-        background: hsl(0, 0%, 50%);
+        background: hsl(0, 0%, 30%);
     }
 
     ::-webkit-scrollbar-thumb:active,
     ::-webkit-scrollbar-thumb:hover {
-        background: hsl(240, 1%, 60%);
+        background: hsl(240, 1%, 40%);
     }
 }
 </style>
