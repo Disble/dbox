@@ -1,6 +1,33 @@
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/functions";
+// @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+// Estas @font-face me las saque abriendo el link de fonts.google y copiando
+// la estructura.
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato/Lato-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+ }
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato/Lato-Light.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+ }
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato/Lato-Bold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+ }
 ///////////////////////////////
+body {
+    font-family: 'Lato', sans-serif;
+}
 /* Now all the acrylic layer is just only one class! */
 .acrylic {
     /* Parent background + Gaussian blur */
