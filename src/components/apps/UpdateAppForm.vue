@@ -358,7 +358,7 @@ export default {
         ...mapState(['app', 'boxes']),
 
         pathName() {
-            return this.app.path !== ''
+            return this.app.path !== '' && this.app.path !== null && this.app.path !== undefined
                 ? `${this.app.path.substring(0, 35)}...`
                 : null;
         }

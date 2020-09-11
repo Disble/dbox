@@ -68,21 +68,26 @@
         <draggable
           v-model="appsBoxList"
           group="apps"
+          class="is-flex buttons"
           @start="drag=true"
           @end="drag=false"
           @change="updateOrderApp"
-          class="is-flex buttons"
         >
           <router-link
             v-for="app in appsBoxList"
             :key="app._id"
             :to="`/detail/${app._id}`"
-            class="mt-4"
+            class="mt-4 mr-5"
           >
-            <div
-              class="dbox-app-card mr-5"
-              :style="{ backgroundImage: `url('${app.tile}')` }"
-            />
+            <context-menu
+              :items-menu="contextualMenu"
+              @on-click="contextualClick($event, app)"
+            >
+              <div
+                class="dbox-app-card"
+                :style="{ backgroundImage: `url('${app.tile}')` }"
+              />
+            </context-menu>
           </router-link>
         </draggable>
       </div>
@@ -110,22 +115,48 @@
 <script>
 const { shell } = require('electron');
 import SearchApp from '@/components/SearchApp.vue';
+// import UpdateAppForm from '@/components/apps/UpdateAppForm.vue';
+import ContextMenu from '@/components/ContextMenu.vue';
 import { mapState, mapActions } from 'vuex';
 import draggable from 'vuedraggable';
+import appService from '@/utils/appService';
 
 export default {
     components: {
-        draggable
+        draggable,
+        ContextMenu
     },
 
     data() {
         return {
-            drag: false
+            drag: false,
+            contextualMenu: [
+                {
+                    id: '1',
+                    title: 'Abrir',
+                    type: 'item'
+                },
+                {
+                    id: '2',
+                    title: 'Editar',
+                    type: 'item'
+                },
+                {
+                    id: '3',
+                    isDivider: true,
+                    type: 'divider'
+                },
+                {
+                    id: '4',
+                    title: 'Eliminar',
+                    type: 'item',
+                }
+            ]
         };
     },
 
     computed: {
-        ...mapState(['box', 'appsBox']),
+        ...mapState(['box', 'appsBox', 'app']),
 
         appsBoxList: {
             get() {
@@ -160,6 +191,7 @@ export default {
             'getBoxById',
             'updateDboxBackground',
             'getAppsById',
+            'getAppById',
             'updateBox',
             'getBoxes',
             'updateApp',
@@ -250,7 +282,22 @@ export default {
                 app.order = parseInt(i) + 1;
                 await this.updateApp({ appId: app._id, app });
             }
-        }
+        },
+
+        async contextualClick(event, app) {
+            console.log('🔥 contextualClick()', event, app);
+            await this.getAppById({ id: app._id });
+            const menuEvents = {
+              '1': this.openApp,
+              '2': this.updateAppDetail,
+              '3': () => {},
+              '4': this.removeAppDetail
+            };
+            // menuEvents[event.id].bind(this)();
+            menuEvents[event.id]();
+        },
+
+        ...appService
     }
 };
 </script>
