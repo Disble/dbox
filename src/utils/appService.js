@@ -57,6 +57,30 @@ const appService = {
           this.$router.push({ name: 'Home' });
         })
     });
+  },
+
+  deleteAppFromBox() {
+    this.$buefy.dialog.confirm({
+      title: `Borrando "${this.app.title}"`,
+      message: `Estas apunto de borrar "${this.app.title}" de <b>${this.box.title}</b>.<br> ¿Estás seguro?`,
+      confirmText: 'Borrar',
+      type: 'is-danger',
+      hasIcon: true,
+      onConfirm: async () => {
+        const box = this.box;
+        box.apps = box.apps.filter(appId => appId !== this.app._id);
+        box.modifiedDate = new Date();
+        await this.updateBox({ boxId: box._id, box });
+        await this.getAppsById({ appsId: box.apps });
+        this.$buefy.dialog.confirm({
+          title: `Éxito`,
+          message: `${this.app.title} se elimino de ${this.box.title}`,
+          confirmText: 'Ok',
+          type: 'is-success',
+          hasIcon: true,
+        })
+      }
+    });
   }
 };
 

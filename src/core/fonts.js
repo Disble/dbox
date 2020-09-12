@@ -25,7 +25,8 @@ import {
     faCog,
     faBoxOpen,
     faProjectDiagram,
-    faWindowMaximize
+    faWindowMaximize,
+    faCheckCircle
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -53,6 +54,7 @@ library.add(
     faCog,
     faBoxOpen,
     faProjectDiagram,
-    faWindowMaximize
+    faWindowMaximize,
+    faCheckCircle
 );
 Vue.component('vue-fontawesome', FontAwesomeIcon);

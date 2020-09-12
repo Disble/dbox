@@ -148,7 +148,7 @@ export default {
                 },
                 {
                     id: '4',
-                    title: 'Eliminar',
+                    title: 'Eliminar (caja)',
                     type: 'item',
                 }
             ]
@@ -285,15 +285,13 @@ export default {
         },
 
         async contextualClick(event, app) {
-            console.log('🔥 contextualClick()', event, app);
             await this.getAppById({ id: app._id });
             const menuEvents = {
               '1': this.openApp,
               '2': this.updateAppDetail,
               '3': () => {},
-              '4': this.removeAppDetail
+              '4': this.deleteAppFromBox
             };
-            // menuEvents[event.id].bind(this)();
             menuEvents[event.id]();
         },
 
