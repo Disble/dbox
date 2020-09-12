@@ -1,6 +1,20 @@
 # Change Log
 Todos los cambios importantes de dbox van a ser documentados en este archivo.
 
+## [0.5.0]
+### Novedades
+- Ahora puedes reordenar tanto cajas (en el menú) como las apps dentro de estas arrastrando y soltando con el puntero.
+- Hicimos algunos cambios visuales hacer dbox más vistoso (¿te diste cuenta cuales son?)
+- Cambiamos los colores del buscador para que este más acorde con el resto de la interfaz.
+- Ahora se pueden abrir, editar y eliminar (solo de la caja) las apps de una caja con un menú contextual haciendo clic derecho sobre la portada.
+- Si es la primera vez que abres dbox verás dos cajas por defecto (Local y Online) para empieces a usarlas.
+- Hemos mejorado algunas interacciones al agregar y editar cajas.
+- Hemos cambiado la forma en que se muestran las apps recién ejecutadas a un sola fila.
+
+### Corrección de errores
+- Solucionado: dbox ahora si se reinicia cuando llega una nueva actualización.
+- Solucionado: el ícono una app recién añadida se alargaba cuando la imagen era muy ancha, hemos decidido recortarla para que entre en el circulo.
+
 ## [0.4.0]
 ### Novedades
 - Dicen que la primera si importa, es por eso que nos hemos enfocado en hacer esa primera impresión lo más amena posible.
