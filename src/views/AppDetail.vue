@@ -14,6 +14,16 @@
 
       <button
         class="button is-black mt-4 ml-4"
+        @click="copyToClipboard"
+      >
+        <b-icon
+          icon="clipboard"
+          size="is-small"
+        />
+      </button>
+
+      <button
+        class="button is-black mt-4 ml-4"
         @click="updateAppDetail"
       >
         <b-icon
@@ -91,12 +101,7 @@ export default {
                 type: 'is-black'
             });
             await shell.openExternal(this.app.path);
-            this.app.numLaunch++;
-            if (this.app.firstLaunchDate === null) {
-                this.app.firstLaunchDate = new Date();
-            }
-            this.app.lastLaunchDate = new Date();
-            this.updateApp({ appId: this.app._id, app: this.app });
+            this.updateOpenApp();
         },
 
         updateAppDetail() {
@@ -133,6 +138,36 @@ export default {
                         this.$router.push({ name: 'Home' });
                     })
             });
+        },
+
+        copyToClipboard() {
+          const el = document.createElement('textarea');
+          el.value = this.app.path;
+          el.setAttribute('readonly', '');
+          el.style.position = 'absolute';
+          el.style.left = '-9999px';
+          document.body.appendChild(el);
+          // const selected =
+          //   document.getSelection().rangeCount > 0
+          //     ? document.getSelection().getRangeAt(0)
+          //     : false;
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+          this.$buefy.notification.open({
+              message: '¡Dirección copiada a portapapeles!',
+              type: 'is-black'
+          });
+          this.updateOpenApp();
+        },
+
+        updateOpenApp() {
+          this.app.numLaunch++;
+          if (this.app.firstLaunchDate === null) {
+              this.app.firstLaunchDate = new Date();
+          }
+          this.app.lastLaunchDate = new Date();
+          this.updateApp({ appId: this.app._id, app: this.app });
         }
     }
 };
