@@ -89,7 +89,7 @@ export default {
                         .toLowerCase()
                         .indexOf(this.name.toLowerCase()) >= 0
                 );
-            });
+            }).sort((a, b) => b.lastLaunchDate - a.lastLaunchDate);
         }
     },
 
