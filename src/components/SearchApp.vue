@@ -14,6 +14,9 @@
         :icon="selected !== null ? '' : 'search'"
         custom-class="has-text-grey-lighter has-text-weight-bold dbox-search-input"
         :style="{ 'width': selected !== null && hasBox ? 'auto' : 'inherit' }"
+        icon-right="close-circle"
+        icon-right-clickable
+        @icon-right-click="clearIconClick"
       />
       <div
         v-if="selected !== null"
@@ -125,6 +128,10 @@ export default {
 
         cancel(submited) {
             this.$emit('close', { submited });
+        },
+
+        clearIconClick() {
+          this.name = '';
         }
     }
 };
