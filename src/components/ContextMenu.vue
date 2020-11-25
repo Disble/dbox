@@ -93,6 +93,7 @@ export default {
 
         handleClickEmitter(item) {
             this.$emit('on-click', item);
+            this.isActiveMenu = false;
         },
 
         getRelativeCoordinates(event, referenceElement) {
