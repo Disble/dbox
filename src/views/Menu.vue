@@ -251,7 +251,8 @@ export default {
         createItemMenu(originalBox, isEditable = false) {
             const defaultIcons = {
                 Local: 'desktop',
-                Online: 'network-wired'
+                Online: 'network-wired',
+                Tesis: 'graduation-cap'
             };
             const boxCreatedMenu = Object.assign({}, originalBox);
             boxCreatedMenu.link = '/box';
