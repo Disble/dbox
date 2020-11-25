@@ -27,7 +27,9 @@ import {
     faProjectDiagram,
     faWindowMaximize,
     faCheckCircle,
-    faClipboard
+    faClipboard,
+    faDownload,
+    faGraduationCap
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -57,6 +59,8 @@ library.add(
     faProjectDiagram,
     faWindowMaximize,
     faCheckCircle,
-    faClipboard
+    faClipboard,
+    faDownload,
+    faGraduationCap
 );
 Vue.component('vue-fontawesome', FontAwesomeIcon);
